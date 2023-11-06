@@ -1,5 +1,7 @@
 # Arabic Sexism, Offensive Language, and Hate Speech Detection
 
+![ScreenShot](image/LLM_robot.png)
+
 ## Overview
 
 This repository houses the research and development efforts focused on the creation of a sophisticated Large Language Model specialized in the identification and categorization of Arabic text data related to sexism, offensive language, and hate speech. The primary objective is to enhance the accuracy and efficiency of detection for these social media perils by adopting a multitask learning approach.
