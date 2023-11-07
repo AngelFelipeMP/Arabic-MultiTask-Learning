@@ -1,5 +1,7 @@
 # add by Angel
 arabic-data-mtl
+mtl-baseline/data
+mtl-model/data
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
