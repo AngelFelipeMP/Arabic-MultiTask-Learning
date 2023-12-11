@@ -1,0 +1,21 @@
+### Official tasks
+    #   AraMi 2021 and/or ArMIS 2023 : Misogyny detection
+    #   OSACT-2022: Hate speech detection
+    #   HSArabicDataset: Offensive/vulgar language detection
+
+
+### Data Exploration
+    *   Split ArMI2021: training: 80%, test: 20%
+    *   Split OSACT2022: training: 70%, dev: 10%, test: 20%
+    *   Henece: Split HSArabic: training: 80%, test: 20%
+
+
+### Data Preprocessing
+    -   HSARABIC
+        *   Remove the instances with empty annotations
+        *   Remove the instances with NAN index
+        *   Normalise the labels
+            +   Yes, yes, YES -> yes
+        *   Remove the instances with labels that appear only once
+            +  no-not-directed
+            +  Neutral-or-combination
