@@ -29,8 +29,6 @@ class ArMI2021:
         print('******************')
         for split in ['training', 'test_with_labels', 'merge']:
             df = getattr(self, 'df_' + split)
-            ic(df.columns)
-            ic(df.index)
             print(f'Number of samples in {split}: {df.shape[0]}')
             print(f'Label distribution in {split}:')
             distribution = df['misogyny'].value_counts(normalize=True).to_dict()
@@ -45,7 +43,6 @@ class ArMI2021:
         
 
 class OSACT2022:
-    ##TODO: create a new data split/slot "train_deve" it will be training data (80% of the whole data)
     '''Class for ArMI_2021 dataset'''
     def __init__(self):
         self.df_training = self.read_tsv('training')
@@ -74,18 +71,20 @@ class OSACT2022:
     def add_labels_to_test(self):
         self.df_test_with_labels = pd.concat([self.df_test, self.df_labels], axis=1)
         
-    def join_train_test(self):
-        self.df_training['data'], self.df_dev['data'], self.df_test_with_labels['data'] = 'training', 'dev', 'test'
-        self.df_merge = pd.concat([self.df_training, self.df_dev, self.df_test])
+    def join_train_dev(self):
+        self.df_training['data'], self.df_dev['data'] = 'training', 'dev'
+        self.df_train_plus_dev = pd.concat([self.df_training, self.df_dev])
+        
+    def join_train_dev_test(self):
+        self.df_training['data'] = 'test'
+        self.df_merge = pd.concat([self.df_train_plus_dev, self.df_test])
         
     def summary(self):
         print('******************')
         print('**** OSACT202 ****')
         print('******************')
-        for split in ['training', 'dev', 'test_with_labels', 'merge']:
+        for split in ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']:
             df = getattr(self, 'df_' + split)
-            ic(df.columns)
-            ic(df.index)
             print(f'Number of samples in {split}: {df.shape[0]}')
             print(f'Label distribution in {split}:')
             distribution = df['Hate-Speech'].value_counts(normalize=True).to_dict()
@@ -96,7 +95,8 @@ class OSACT2022:
     def main(self):
         self.add_labels_to_test()
         self.map_labels_FGHS_to_HS()
-        self.join_train_test()
+        self.join_train_dev()
+        self.join_train_dev_test()
         self.summary()
 
         
@@ -134,8 +134,6 @@ class HSARABIC:
         print('******************')
         for split in ['training', 'test_with_labels', 'merge']:
             df = getattr(self, 'df_' + split)
-            ic(df.columns)
-            ic(df.index)
             print(f'Number of samples in {split}: {df.shape[0]}')
             print(f'Label distribution in {split}:')
             distribution = df['offensive_vulgar'].value_counts(normalize=True).to_dict()
@@ -161,25 +159,3 @@ if __name__ == '__main__':
     
     HSArabic = HSARABIC()
     HSArabic.main()
-        
-
-    
-##TODO: remove ic() from the code
-##TODO: rewrite in in notes
-# Regarding the HSArabicDataset, there are some inconsistencies in the data:
-# For example, for Hate Speech, the same label was written in different 
-# ways: Yes, Yes, and YES.
-# There are two labels that appear only once: ‘no-not-directed’ and 
-# ‘Neutral-or-combination’.
-# In addition, there are a few missing values. So, whatever label/task 
-# we use from this dataset,
-# we will need to clean it.
-
-# There are only two binary tasks embedded in the HSArabicDataset, which are
-#    - Q4.1: Offensive/Vulgar
-
-
-#### DAMIANO
-# I'd use the following to pre-process the dataset:
-# ignore instances with empty annotations (there is a filtering task before the ones we're aiming for)
-# normalise the labels by applying lowercasing and keeping the first character as label ('y', 'n').
