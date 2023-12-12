@@ -1,0 +1,10 @@
+{
+    "experiment": "E4",
+    "device": "auto",
+    "folds_number": 10,
+    "data_urls":{
+        "EXIST":"",
+        "DETOXIS":""
+    },
+    "language":"es"
+}
