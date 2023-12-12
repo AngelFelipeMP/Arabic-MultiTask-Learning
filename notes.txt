@@ -19,3 +19,14 @@
         *   Remove the instances with labels that appear only once
             +  no-not-directed
             +  Neutral-or-combination
+        *   Replace:
+            +   the URLs with URL
+            +   the users with @USER
+    -   ArMI2021
+        *   Replave:
+            +   the URLs with URL
+            +   the tag for user "@مستخدم" with @USER
+
+
+
+##TODO: I may delet gitignore file from mtl-baseline folder
