@@ -2,7 +2,6 @@ import pandas as pd
 from config import *
 from icecream import ic
 from sklearn.model_selection import train_test_split
-import math
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
 
@@ -12,9 +11,17 @@ class ArMI2021:
         self.df_training = self.read_tsv('training')
         self.df_test = self.read_tsv('test')
         self.df_labels = self.read_tsv('labels')
+        self.main()
 
     def read_tsv(self, file):
         return pd.read_csv(ORIGINAL_DATA_PATH + '/' + ArMI_2021['directory']+ '/' + ArMI_2021[file], sep='\t', index_col= 'tweet_id')
+    
+    def preprocess(self):
+        for split in ['training', 'test']:
+            df = getattr(self, 'df_' + split)
+            df['text'] = df['text'].str.replace('مستخدم@', '@USER', regex=True) # Replace users
+            df['text'] = df['text'].str.replace(r'htt\S+|www.\S+', 'URL', regex=True) # Replace URLs
+            setattr(self, 'df_' + split, df)  # Update the DataFrame attribute
     
     def add_labels_to_test(self):
         self.df_test_with_labels = pd.merge(self.df_test, self.df_labels, on='tweet_id')
@@ -22,6 +29,11 @@ class ArMI2021:
     def join_train_test(self):
         self.df_training['data'], self.df_test_with_labels['data'] = 'training', 'test'
         self.df_merge = pd.concat([self.df_training, self.df_test_with_labels])
+        
+    def save_tsv(self, path):
+        for split in ['training', 'test_with_labels', 'merge']:
+            df = getattr(self, 'df_' + split)
+            df.to_csv(path  + '/ArMI2021_' + split +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
@@ -37,9 +49,9 @@ class ArMI2021:
             print()
     
     def main(self):
+        self.preprocess()
         self.add_labels_to_test()
         self.join_train_test()
-        self.summary()
         
 
 class OSACT2022:
@@ -49,6 +61,7 @@ class OSACT2022:
         self.df_dev = self.read_tsv('dev')
         self.df_test = self.read_tsv('test')
         self.df_labels = self.read_tsv('labels')
+        self.main()
 
     def map_labels_FGHS_to_HS(self):
         self.df_training['Hate-Speech'] = self.df_training ['Fine-Grained-Hate-Speech'].apply(lambda x: 'NOT_HS' if x == 'NOT_HS' else 'HS')
@@ -65,6 +78,7 @@ class OSACT2022:
                                 index_col= 'tweet_id' if file != 'labels' else None)
         if file == 'labels':
             df.index = df.index + 10158
+            df.index.name = 'tweet_id'
             
         return df
     
@@ -78,6 +92,11 @@ class OSACT2022:
     def join_train_dev_test(self):
         self.df_training['data'] = 'test'
         self.df_merge = pd.concat([self.df_train_plus_dev, self.df_test])
+        
+    def save_tsv(self, path):
+        for split in ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']:
+            df = getattr(self, 'df_' + split)
+            df.to_csv(path  + '/OSACT2022_' + split +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
@@ -97,13 +116,13 @@ class OSACT2022:
         self.map_labels_FGHS_to_HS()
         self.join_train_dev()
         self.join_train_dev_test()
-        self.summary()
 
         
 class HSARABIC:
     '''Class for HSARABIC dataset'''
     def __init__(self):
         self.df = self.read_tsv('single_partition')
+        self.main()
 
     def read_tsv(self, file):
         return pd.read_excel(ORIGINAL_DATA_PATH + '/' + HSArabic['directory']+ '/' + HSArabic[file],
@@ -120,6 +139,8 @@ class HSARABIC:
         self.df = self.df[self.df['offensive_vulgar'] != 'no-not-directed'] # Remove the instances with labels that appear only once: 1
         self.df = self.df[self.df['offensive_vulgar'] != 'neutral-or-combination'] # Remove the instances with labels that appear only once: 1
         self.df['offensive_vulgar'] = self.df['offensive_vulgar'].apply(lambda x: x.upper()) # Normalise the labels
+        self.df['text'] = self.df['text'].str.replace(r'@\w+', '@USER', regex=True) # Replace users
+        self.df['text'] = self.df['text'].str.replace(r'htt\S+|www.\S+', 'URL', regex=True) # Replace URLs
     
     def split_data(self):
         self.df_training, self.df_test_with_labels = train_test_split(self.df, test_size=0.2, stratify=self.df['offensive_vulgar'], random_state=42)
@@ -127,6 +148,11 @@ class HSARABIC:
     def join_train_test(self):
         self.df_training['data'], self.df_test_with_labels['data'] = 'training', 'test'
         self.df_merge = pd.concat([self.df_training, self.df_test_with_labels])
+        
+    def save_tsv(self, path):
+        for split in ['training', 'test_with_labels', 'merge']:
+            df = getattr(self, 'df_' + split)
+            df.to_csv(path  + '/HSARABIC_' + split +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
@@ -145,17 +171,16 @@ class HSARABIC:
         self.preprocess()
         self.split_data()
         self.join_train_test()
-        self.summary()
         
             
 if __name__ == '__main__':
     print('\n')
     
     ArMI_2021 = ArMI2021()
-    ArMI_2021.main()
+    ArMI_2021.summary()
     
     OSACT2022 = OSACT2022()
-    OSACT2022.main()
+    OSACT2022.summary()
     
     HSArabic = HSARABIC()
-    HSArabic.main()
+    HSArabic.summary()
