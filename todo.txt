@@ -1,3 +1,4 @@
-##TODO: move .yml file to the root folder
-##TODO: Repo path
-##TODO: I may delet gitignore file from mtl-baseline folder and add it to the root folder
+##TODO: [ ] Available performance metrics
+##TODO: [ ] Finish to write data config files
+##TODO: [ ] I delet gitignore file from mtl-baseline folder and add it to the root folder
+##TODO: [ ] Delet no necessary config files from mtl-baseline folder
