@@ -1,7 +1,6 @@
 import os
 
-# REPO_PATH = os.getcwd()
-REPO_PATH = '/Users/angel_de_paula/repos/Arabic-MultiTask-Learning'
+REPO_PATH = os.getcwd().split('Arabic-MultiTask-Learning')[0] + 'Arabic-MultiTask-Learning'
 ORIGINAL_DATA_PATH = REPO_PATH + '/arabic-data-mtl'
 BASELINE_FOLDER_PATH = REPO_PATH + '/mtl-baseline'
 BASELINE_LOGS_PATH = BASELINE_FOLDER_PATH + '/logs'

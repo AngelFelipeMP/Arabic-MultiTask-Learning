@@ -1,5 +1,6 @@
+import os
 import sys
-sys.path.append('/Users/angel_de_paula/repos/Arabic-MultiTask-Learning')
+sys.path.append(os.getcwd().split('Arabic-MultiTask-Learning')[0] + 'Arabic-MultiTask-Learning')
 from data_exploration import ArMI2021, OSACT2022, HSARABIC
 from config import *
 
