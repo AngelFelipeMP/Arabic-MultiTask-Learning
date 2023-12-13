@@ -1,0 +1,14 @@
+{
+    "HSARABIC": {
+        "train_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_test_with_labels.tsv",
+        "validation_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_training.tsv",
+        "sent_idxs": [1],
+        "tasks":{
+            "sexism_labels": {
+                "task_type": "classification",
+                "column_idx": 2,
+                "metric":"acc"
+            }
+        }
+    }
+}

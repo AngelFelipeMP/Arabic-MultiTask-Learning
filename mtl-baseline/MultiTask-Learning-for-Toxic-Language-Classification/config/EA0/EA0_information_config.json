@@ -1,0 +1,11 @@
+{
+    "experiment": "EA0",
+    "device": "auto",
+    "folds_number": 2,
+    "data_urls":{
+        "EXIST":"",
+        "DETOXIS":"",
+        "HatEval":""
+    },
+    "language":"ar"
+}
