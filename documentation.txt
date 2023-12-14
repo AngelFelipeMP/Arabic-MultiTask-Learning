@@ -2,4 +2,7 @@ clone code repo
 clone data repo
 create folder: data, logs inside mtl-baseline/models
 create a conde env from .yml file (root of repo)
-install pip dependencies -> pip install openpyxl
+install pip dependencies 
+    -> pip install openpyxl
+    -> pip install iterative-stratification==0.1.7
+
