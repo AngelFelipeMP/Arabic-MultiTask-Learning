@@ -1,10 +1,7 @@
-from pydrive2.auth import GoogleAuth
-from pydrive2.drive import GoogleDrive
 import os
 import shutil
 import pandas as pd
 import json
-import gdown
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
@@ -34,10 +31,6 @@ class MtlClass:
         return ['_'.join(file.split('_')[2:4]) for file in os.listdir(self.config_path) if 'mtl'in file or 'stl' in file]
         
     def process_pre_train(self):
-        # dowloand data
-        if self.fetch_data and not self.debug:
-            self.download_data()
-        
         #create a dict with tasks information
         self.get_tasks()
         
@@ -49,41 +42,15 @@ class MtlClass:
         for task in self.tasks.keys():
             self.process_data(task, self.tasks[task]['text'])
         
-        
-        
     def file_list(self, path=str(), word_in=str()):
         # get list with file that contain "word_in" 
         return [file for file in os.listdir(path) if word_in in file]
-        
-        
         
     def read_json(self, path=str()):
         # reading info config file
         with open(path, 'r') as f:
             file = f.read()
         return json.loads(file)
-            
-            
-            
-    def download_data(self):
-        # create a data folder
-        if os.path.exists(self.data_path):
-            shutil.rmtree(self.data_path)
-        os.makedirs(self.data_path)
-        
-        for task,url in self.info_dict['data_urls'].items():
-            #download data folders to current directory
-            gdown.download_folder(url, quiet=True)
-            sorce_folder = os.getcwd() + '/' + task
-            
-            # move datasets to the data folder
-            file_names = os.listdir(sorce_folder)
-            for file_name in file_names:
-                shutil.move(os.path.join(sorce_folder, file_name), self.data_path)
-                
-            # delete data folders from current directory
-            shutil.rmtree(sorce_folder)
-            
             
             
     def get_tasks(self):
@@ -284,30 +251,3 @@ class MtlClass:
                 results_dict[task + '_crossvalidation_' + self.tasks[task]['metric']] = score                
                 
         return results_dict
-    
-    def upload_data(self):
-        
-        GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = self.repo_path + '/config' + '/' + 'client_secrets.json'
-        
-        gauth = GoogleAuth()
-        gauth.LoadCredentialsFile(self.repo_path + '/config' + '/' + 'mycreds.txt')
-        
-        if gauth.credentials is None:
-            # Authenticate if they're not there
-            gauth.LocalWebserverAuth()
-        
-        elif gauth.access_token_expired:
-            # Refresh them if expired
-            gauth.Refresh()
-        
-        else:
-            # Initialize the saved creds
-            gauth.Authorize()
-        # Save the current credentials to a file
-        gauth.SaveCredentialsFile(self.repo_path + '/config'+ '/' + 'mycreds.txt')
-        
-        drive = GoogleDrive(gauth)
-        shutil.make_archive(self.logs_path + '/' + 'results', 'zip', self.logs_path)
-        file_drive = drive.CreateFile({'parents': [{'id': '1o8ZHptI_J-0jP8PGdIKB3CbVrUtj3r-G'}]})
-        file_drive.SetContentFile(self.logs_path + '/' +'results.zip')
-        file_drive.Upload()
