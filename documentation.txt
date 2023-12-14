@@ -6,3 +6,6 @@ install pip dependencies
     -> pip install openpyxl
     -> pip install iterative-stratification==0.1.7
 
+### MTL-baseline
+run mtl-baseline/scripts/experiment_damiano.py
+inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/scripts$
