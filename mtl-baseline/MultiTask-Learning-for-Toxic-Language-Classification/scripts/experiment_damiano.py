@@ -2,6 +2,7 @@
 import argparse
 from utils_two import MtlClass
 import os
+from icecream import ic
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--information_config", default="", type=str, help="Modes configuration file")
@@ -16,6 +17,7 @@ if args.information_config == '':
 if not os.path.exists('../config' + '/' + args.information_config):
     print('The --information_config does not exist path')
     print('Enter with a valid path')
+    ic(args.information_config)
     exit(1)
     
     
