@@ -100,7 +100,7 @@ class OSACT2022:
         
     def summary(self):
         print('******************')
-        print('**** OSACT202 ****')
+        print('**** OSACT2022 ****')
         print('******************')
         for split in ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']:
             df = getattr(self, 'df_' + split)
