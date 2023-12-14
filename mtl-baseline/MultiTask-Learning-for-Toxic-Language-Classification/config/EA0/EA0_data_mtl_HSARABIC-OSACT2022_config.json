@@ -18,7 +18,7 @@
         "tasks":{
             "hate_labels": {
                 "task_type": "classification",
-                "column_idx": [2,6],
+                "column_idx": 2,
                 "metric":"macro-f1"
             }
         }

@@ -53,7 +53,7 @@ class ArMI2021:
         self.add_labels_to_test()
         self.join_train_test()
         
-
+#TODO: Add all labels or move label column by 'text' column
 class OSACT2022:
     '''Class for ArMI_2021 dataset'''
     def __init__(self):
@@ -63,13 +63,9 @@ class OSACT2022:
         self.df_labels = self.read_tsv('labels')
         self.main()
 
-    def map_labels_FGHS_to_HS(self):
-        self.df_training['Hate-Speech'] = self.df_training ['Fine-Grained-Hate-Speech'].apply(lambda x: 'NOT_HS' if x == 'NOT_HS' else 'HS')
-        self.df_dev['Hate-Speech'] = self.df_dev['Fine-Grained-Hate-Speech'].apply(lambda x: 'NOT_HS' if x == 'NOT_HS' else 'HS')
-        
     def read_tsv(self, file):
         col_names = ['tweet_id', 'text', 'Offencive-Language', 'Fine-Grained-Hate-Speech', 'vulgar', 'violence']
-        columns = ['Hate-Speech'] if file == 'labels' else  (col_names[:2] if file == 'test' else col_names)
+        columns = ['Hate-Speech'] if file == 'labels' else  (col_names[:2] if file == 'test' else col_names[:])
         
         df = pd.read_csv(ORIGINAL_DATA_PATH + '/' + OSACT_2022['directory']+ '/' + OSACT_2022[file], 
                                 sep='\t', 
@@ -85,8 +81,17 @@ class OSACT2022:
     def add_labels_to_test(self):
         self.df_test_with_labels = pd.concat([self.df_test, self.df_labels], axis=1)
         
+    def map_labels_FGHS_to_HS(self):
+        self.df_training['Hate-Speech'] = self.df_training['Fine-Grained-Hate-Speech'].apply(lambda x: 'NOT_HS' if x == 'NOT_HS' else 'HS')
+        self.df_dev['Hate-Speech'] = self.df_dev['Fine-Grained-Hate-Speech'].apply(lambda x: 'NOT_HS' if x == 'NOT_HS' else 'HS')
+        
+    def remove_non_needed_columns(self):
+        self.df_training = self.df_training[['text', 'Hate-Speech']]
+        self.df_dev = self.df_dev[['text', 'Hate-Speech']]
+        self.df_test_with_labels = self.df_test_with_labels[['text', 'Hate-Speech']]
+        
     def join_train_dev(self):
-        self.df_training['data'], self.df_dev['data'] = 'training', 'dev'
+        self.df_training['data'], self.df_dev['data'], self.df_test_with_labels['data'] = 'training', 'dev', 'test'
         self.df_train_plus_dev = pd.concat([self.df_training, self.df_dev])
         
     def join_train_dev_test(self):
@@ -100,7 +105,7 @@ class OSACT2022:
         
     def summary(self):
         print('******************')
-        print('**** OSACT2022 ****')
+        print('**** OSACT2022 ***')
         print('******************')
         for split in ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']:
             df = getattr(self, 'df_' + split)
@@ -114,6 +119,7 @@ class OSACT2022:
     def main(self):
         self.add_labels_to_test()
         self.map_labels_FGHS_to_HS()
+        self.remove_non_needed_columns()
         self.join_train_dev()
         self.join_train_dev_test()
 
