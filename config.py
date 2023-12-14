@@ -1,10 +1,15 @@
 import os
 
+TRANSFORMERS = ['aubmindlab/bert-base-arabert']
+
 REPO_PATH = os.getcwd().split('Arabic-MultiTask-Learning')[0] + 'Arabic-MultiTask-Learning'
 ORIGINAL_DATA_PATH = REPO_PATH + '/arabic-data-mtl'
+GRAPHICS_PATH = REPO_PATH + '/graphics'
+
 BASELINE_FOLDER_PATH = REPO_PATH + '/mtl-baseline'
 BASELINE_LOGS_PATH = BASELINE_FOLDER_PATH + '/logs'
 BASELINE_DATA_PATH = BASELINE_FOLDER_PATH + '/data'
+
 
 ArMI_2021 = {'directory':'ArMI-2021',
                 'labels':'ArMI2021_gold.tsv',
