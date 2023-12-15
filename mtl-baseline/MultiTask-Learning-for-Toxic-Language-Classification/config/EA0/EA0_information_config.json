@@ -3,9 +3,9 @@
     "device": "auto",
     "folds_number": 2,
     "data_urls":{
-        "EXIST":"",
-        "DETOXIS":"",
-        "HatEval":""
+        "ArMI2021":"",
+        "HSARABIC":"",
+        "OSACT2022":""
     },
     "language":"ar"
 }

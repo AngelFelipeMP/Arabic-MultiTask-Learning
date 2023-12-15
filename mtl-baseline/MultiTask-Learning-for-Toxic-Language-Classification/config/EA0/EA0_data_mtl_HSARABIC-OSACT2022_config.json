@@ -1,7 +1,7 @@
 {
     "HSARABIC": {
-        "train_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_training.tsv",
-        "validation_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_test_with_labels.tsv",
+        "train_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_training_processed.tsv",
+        "validation_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_test_with_labels_processed.tsv",
         "sent_idxs": [1],
         "tasks":{
             "offensive_labels": {
@@ -12,8 +12,8 @@
         }
     },
     "OSACT2022": {
-        "train_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_train_plus_dev.tsv",
-        "validation_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/HSARABIC_test_with_labels.tsv",
+        "train_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/OSACT2022_train_plus_dev_processed.tsv",
+        "validation_data_path": "/home/adepau/repos/Arabic-MultiTask-Learning/mtl-baseline/data/OSACT2022_test_with_labels_processed.tsv",
         "sent_idxs": [1],
         "tasks":{
             "hate_labels": {
