@@ -2,6 +2,8 @@
 arabic-data-mtl
 mtl-baseline/data
 mtl-model/data
+mtl-model/logs
+mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp/logs
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
