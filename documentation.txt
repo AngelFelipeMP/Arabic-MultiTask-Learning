@@ -7,5 +7,21 @@ install pip dependencies
     -> pip install iterative-stratification==0.1.7
 
 ### MTL-baseline
+set parameters in config files
+    -> mtl-baseline/configs/EA0_information_config.json
+        + experiment (e.g. EA0)
+        + device
+        + folds_number
+        + language
+    -> mtl-baseline/configs/EA0_parameter_config.json
+        + max_len
+        + batch_size
+        + epochs
+        + learning_rate
+        + transfomer_model
+
 run mtl-baseline/scripts/experiment_damiano.py
-inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/scripts$
+inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
+
+EA0_information_config.json
+EA0_parameter_config.json

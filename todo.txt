@@ -1,7 +1,8 @@
 ##TODO: [X] Available performance metrics
 ##TODO: [X] Finish to write data config files
 ##TODO: [X] I delet gitignore file from mtl-baseline folder and add it to the root folder
-##TODO: [ ] check if OSACT2022 dataset with labels in two different columns will work with mtl-baseline
+##TODO: [X] check if OSACT2022 dataset with labels in two different columns will work with mtl-baseline
+##TODO: [ ] make necessary changes to utils_two.py
 
 
 ##TODO: [ ] generate new  .yml and .requirements.txt files after make mlt-baseline working
