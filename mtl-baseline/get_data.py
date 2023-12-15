@@ -6,12 +6,18 @@ from config import *
 
 if __name__ == '__main__':
     ArMI_2021 = ArMI2021()
-    ArMI_2021.save_tsv(BASELINE_DATA_PATH)
+    ArMI_2021.save_tsv(
+                path=BASELINE_DATA_PATH,
+                splits=['training','test_with_labels'])
     
     OSACT2022 = OSACT2022()
-    OSACT2022.save_tsv(BASELINE_DATA_PATH)
+    OSACT2022.save_tsv(
+                path=BASELINE_DATA_PATH,
+                splits=['train_plus_dev','test_with_labels'])
     
     HSArabic = HSARABIC()
-    HSArabic.save_tsv(BASELINE_DATA_PATH)
+    HSArabic.save_tsv(
+                path=BASELINE_DATA_PATH,
+                splits=['training','test_with_labels'])
     
     print('Datasets saved!')

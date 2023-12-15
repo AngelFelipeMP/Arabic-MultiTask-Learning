@@ -30,10 +30,12 @@ class ArMI2021:
         self.df_training['data'], self.df_test_with_labels['data'] = 'training', 'test'
         self.df_merge = pd.concat([self.df_training, self.df_test_with_labels])
         
-    def save_tsv(self, path):
-        for split in ['training', 'test_with_labels', 'merge']:
-            df = getattr(self, 'df_' + split)
-            df.to_csv(path  + '/ArMI2021_' + split +'.tsv', sep='\t')
+    def save_tsv(self, path, splits):
+        all_splits = ['training', 'test_with_labels', 'merge']
+        splits = splits if splits else all_splits
+        for data in splits:
+            df = getattr(self, 'df_' + data)
+            df.to_csv(path  + '/ArMI2021_' + data +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
@@ -53,7 +55,6 @@ class ArMI2021:
         self.add_labels_to_test()
         self.join_train_test()
         
-#TODO: Add all labels or move label column by 'text' column
 class OSACT2022:
     '''Class for ArMI_2021 dataset'''
     def __init__(self):
@@ -98,10 +99,12 @@ class OSACT2022:
         self.df_training['data'] = 'test'
         self.df_merge = pd.concat([self.df_train_plus_dev, self.df_test])
         
-    def save_tsv(self, path):
-        for split in ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']:
-            df = getattr(self, 'df_' + split)
-            df.to_csv(path  + '/OSACT2022_' + split +'.tsv', sep='\t')
+    def save_tsv(self, path, splits):
+        all_splits = ['training', 'dev', 'train_plus_dev','test_with_labels', 'merge']
+        splits = splits if splits else all_splits
+        for data in splits:
+            df = getattr(self, 'df_' + data)
+            df.to_csv(path  + '/OSACT2022_' + data +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
@@ -155,10 +158,12 @@ class HSARABIC:
         self.df_training['data'], self.df_test_with_labels['data'] = 'training', 'test'
         self.df_merge = pd.concat([self.df_training, self.df_test_with_labels])
         
-    def save_tsv(self, path):
-        for split in ['training', 'test_with_labels', 'merge']:
-            df = getattr(self, 'df_' + split)
-            df.to_csv(path  + '/HSARABIC_' + split +'.tsv', sep='\t')
+    def save_tsv(self, path, splits):
+        all_splits = ['training', 'test_with_labels', 'merge']
+        splits = splits if splits else all_splits
+        for data in splits:
+            df = getattr(self, 'df_' + data)
+            df.to_csv(path  + '/HSARABIC_' + data +'.tsv', sep='\t')
         
     def summary(self):
         print('******************')
