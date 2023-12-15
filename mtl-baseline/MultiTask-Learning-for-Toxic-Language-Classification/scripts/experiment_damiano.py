@@ -29,6 +29,9 @@ for model in MTL.models():
     print(model)
     MTL.train(model)
     
-    #DEBUG add "Break"
-    if args.debug == True:
-        break
+    # #DEBUG add "Break"
+    # if args.debug == True:
+    #     break
+    
+# # average resuls
+# MTL.average()
