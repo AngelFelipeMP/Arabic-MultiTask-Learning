@@ -2,7 +2,13 @@
 ##TODO: [X] Finish to write data config files
 ##TODO: [X] I delet gitignore file from mtl-baseline folder and add it to the root folder
 ##TODO: [X] check if OSACT2022 dataset with labels in two different columns will work with mtl-baseline
-##TODO: [ ] make necessary changes to utils_two.py
+##TODO: [X] make necessary changes to utils_two.py
+##TODO: [X] preper GPU env
+
+##TODO: [X] set parameter for first experiment (check paper file google docs)
+##TODO: [ ] fix Preprocessing @USER and @URL
+##TODO: [ ] create a tmux session for running the first experiment
+##TODO: [ ] run small pillot experiment
 
 
 ##TODO: [ ] generate new  .yml and .requirements.txt files after make mlt-baseline working

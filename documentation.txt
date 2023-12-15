@@ -6,7 +6,16 @@ install pip dependencies
     -> pip install openpyxl
     -> pip install iterative-stratification==0.1.7
 
+### Data Exploration
+run Arabic-MultiTask-Learning/data_exploration.py
+inside: Arabic-MultiTask-Learning/
+
+
 ### MTL-baseline
+
+run mtl-baseline/get_data.py
+inside: Arabic-MultiTask-Learning/mtl-baseline/
+
 set parameters in config files
     -> mtl-baseline/configs/EA0_information_config.json
         + experiment (e.g. EA0)
@@ -22,6 +31,14 @@ set parameters in config files
 
 run mtl-baseline/scripts/experiment_damiano.py
 inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
+ex command : python ../scripts/experiment_damiano.py --information_config EA0/EA0_information_config.json
 
 EA0_information_config.json
 EA0_parameter_config.json
+
+
+## steps to run experiments on mtl-baseline
+    -> delet all files in mtl-baseline/models/logs
+    -> run get_data.py
+    -> set parameters in config files in mtl-baseline/configs
+    -> run experiment_damiano.py
