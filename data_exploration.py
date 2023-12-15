@@ -19,8 +19,7 @@ class ArMI2021:
     def preprocess(self):
         for split in ['training', 'test']:
             df = getattr(self, 'df_' + split)
-            df['text'] = df['text'].str.replace('مستخدم@', '@USER', regex=True) # Replace users
-            df['text'] = df['text'].str.replace(r'htt\S+|www.\S+', 'URL', regex=True) # Replace URLs
+            df['text'] = df['text'].str.replace(r'htt\S+|www.\S+', 'عنوان ورل', regex=True) # Replace URLs
             setattr(self, 'df_' + split, df)  # Update the DataFrame attribute
     
     def add_labels_to_test(self):
@@ -79,6 +78,13 @@ class OSACT2022:
             
         return df
     
+    def preprocess(self):
+        for split in ['training', 'dev', 'test']:
+            df = getattr(self, 'df_' + split)
+            df['text'] = df['text'].str.replace('@USER', 'مستخدم@' , regex=True) # Replace users
+            df['text'] = df['text'].str.replace('URL', 'عنوان ورل', regex=True) # Replace URLs
+            setattr(self, 'df_' + split, df)  # Update the DataFrame attribute
+    
     def add_labels_to_test(self):
         self.df_test_with_labels = pd.concat([self.df_test, self.df_labels], axis=1)
         
@@ -120,6 +126,7 @@ class OSACT2022:
             print()
     
     def main(self):
+        self.preprocess()
         self.add_labels_to_test()
         self.map_labels_FGHS_to_HS()
         self.remove_non_needed_columns()
@@ -148,8 +155,8 @@ class HSARABIC:
         self.df = self.df[self.df['offensive_vulgar'] != 'no-not-directed'] # Remove the instances with labels that appear only once: 1
         self.df = self.df[self.df['offensive_vulgar'] != 'neutral-or-combination'] # Remove the instances with labels that appear only once: 1
         self.df['offensive_vulgar'] = self.df['offensive_vulgar'].apply(lambda x: x.upper()) # Normalise the labels
-        self.df['text'] = self.df['text'].str.replace(r'@\w+', '@USER', regex=True) # Replace users
-        self.df['text'] = self.df['text'].str.replace(r'htt\S+|www.\S+', 'URL', regex=True) # Replace URLs
+        self.df['text'] = self.df['text'].str.replace(r'@\w+', 'مستخدم@', regex=True) # Replace users
+        self.df['text'] = self.df['text'].str.replace(r'htt\S+|www.\S+', 'عنوان ورل', regex=True) # Replace URLs
     
     def split_data(self):
         self.df_training, self.df_test_with_labels = train_test_split(self.df, test_size=0.2, stratify=self.df['offensive_vulgar'], random_state=42)
