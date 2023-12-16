@@ -8,6 +8,7 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 import pandas as pd
 import numpy as np
 import torch
+from icecream import ic
 
 
 class MtlClass:
@@ -95,7 +96,7 @@ class MtlClass:
                         df = pd.read_csv(self.data_path + '/' + data, sep=divide_columns, nrows=32)
                     else:
                         df = pd.read_csv(self.data_path + '/' + data, sep=divide_columns)
-                    
+
                     #remove non-target language text
                     if self.info_dict['language'] and 'language' in df.columns.to_list():
                         df = df.loc[df['language'] == self.info_dict['language']].reset_index(drop=True)
@@ -108,7 +109,7 @@ class MtlClass:
                     
                     # save as .tsv
                     data_path_name = self.data_path + '/' + data[:-4] + '_processed' + '.tsv'
-                    df.to_csv(data_path_name, index=False, header=head, sep="\t")
+                    df.to_csv(data_path_name, index=False, header=head, sep='\t')
                     
                     # save data train/test to concat
                     if 'label' in data or 'train' in data:
@@ -123,7 +124,7 @@ class MtlClass:
             
             # save as .tsv
             df_merged_name = data.split('_')[0] + '_merge' + '_processed' + '.tsv'
-            df.to_csv(self.data_path + '/' + df_merged_name, header=head, index=False, sep="\t")
+            df.to_csv(self.data_path + '/' + df_merged_name, header=head, index=False, sep='\t')
 
         # if dataset is multilingual get the column index
         language = [df.columns.to_list().index('language')] if 'language' in df.columns.to_list() else []
