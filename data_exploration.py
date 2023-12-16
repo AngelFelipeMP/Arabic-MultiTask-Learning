@@ -3,6 +3,7 @@ from config import *
 from icecream import ic
 from sklearn.model_selection import train_test_split
 import warnings
+from io import StringIO
 warnings.filterwarnings('ignore', category=FutureWarning)
 
 class ArMI2021:
@@ -67,15 +68,22 @@ class OSACT2022:
         col_names = ['tweet_id', 'text', 'Offencive-Language', 'Fine-Grained-Hate-Speech', 'vulgar', 'violence']
         columns = ['Hate-Speech'] if file == 'labels' else  (col_names[:2] if file == 'test' else col_names[:])
         
-        df = pd.read_csv(ORIGINAL_DATA_PATH + '/' + OSACT_2022['directory']+ '/' + OSACT_2022[file], 
+        # remove double quotes from the file
+        with open(ORIGINAL_DATA_PATH + '/' + OSACT_2022['directory']+ '/' + OSACT_2022[file], 'r', encoding='utf-8') as f:
+            modified_content = f.read().replace('"', '')
+
+        df = pd.read_csv(StringIO(modified_content), 
                                 sep='\t', 
                                 header=None,
                                 names=columns,
-                                index_col= 'tweet_id' if file != 'labels' else None)
+                                index_col= 'tweet_id' if file != 'labels' else None,
+                                error_bad_lines=False, 
+                                warn_bad_lines=True)
+        
         if file == 'labels':
             df.index = df.index + 10158
             df.index.name = 'tweet_id'
-            
+        
         return df
     
     def preprocess(self):
@@ -83,6 +91,7 @@ class OSACT2022:
             df = getattr(self, 'df_' + split)
             df['text'] = df['text'].str.replace('@USER', 'مستخدم@' , regex=True) # Replace users
             df['text'] = df['text'].str.replace('URL', 'عنوان ورل', regex=True) # Replace URLs
+            df['text'] = df['text'].str.replace('<LF>', ' ', regex=True) # Replace URLs
             setattr(self, 'df_' + split, df)  # Update the DataFrame attribute
     
     def add_labels_to_test(self):
@@ -110,7 +119,7 @@ class OSACT2022:
         splits = splits if splits else all_splits
         for data in splits:
             df = getattr(self, 'df_' + data)
-            df.to_csv(path  + '/OSACT2022_' + data +'.tsv', sep='\t')
+            df.to_csv(path  + '/OSACT2022_' + data +'.tsv', sep='\t', encoding='utf-8')
         
     def summary(self):
         print('******************')
