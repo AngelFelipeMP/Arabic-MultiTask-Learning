@@ -17,7 +17,6 @@ if args.information_config == '':
 if not os.path.exists('../config' + '/' + args.information_config):
     print('The --information_config does not exist path')
     print('Enter with a valid path')
-    ic(args.information_config)
     exit(1)
     
     
