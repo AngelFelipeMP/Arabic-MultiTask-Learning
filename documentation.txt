@@ -39,9 +39,14 @@ ex command : python ../scripts/experiment_damiano.py --information_config EA0/EA
 EA0_information_config.json
 EA0_parameter_config.json
 
+run mtl-baseline/scripts/Analyses.py
+inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
+OBS: to get the confidence interval
+ex command : python ../scripts/Analyses.py 
 
 ## steps to run experiments on mtl-baseline
     -> delet all files in mtl-baseline/logs
     -> run get_data.py
     -> set parameters in config files in mtl-baseline/configs
     -> run experiment_damiano.py
+    -> run Analyses.py

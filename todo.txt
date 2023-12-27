@@ -8,21 +8,27 @@
 
 ##TODO: [X] set parameter for first experiment (check paper file google docs)
 ##TODO: [X] fix Preprocessing @USER and @URL
-##TODO: [ ] create a tmux session for running the first experiment
-##TODO: [ ] run small pillot experiment
-##TODO: [ ] set epochs to 15
-##TODO: [ ] run experiment
+##TODO: [X] create a tmux session for running the first experiment
+##TODO: [X] run small pillot experiment
+
+##BUG: [X] inconsistenci OSACT train and dev dataset -> 7395 jump 7795 & -> 9698 jump 9703
+##BUG: [X] preprocessinf OSACT dataset by mtl-baseline (experiment_damiano)
+##BUG: [X] OSACT overload GPU memory
+##BUG: [X] remove debug.py
+
+##TODO: [X] set epochs to 15
+##TODO: [X] run experiment
+
+##TODO: [ ] improve Analyses.py script (it generate confidence intervals)
 
 ##TODO: [ ] change script name experiment_damiano.py to experiment.py or sth else
-
+##TODO: [ ] check the overall code before start with the mtl task ware models
 
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 ##TODO: [ ] add GPT inside vs code
 ##TODO: [ ] add chrome inside vs code
 
+##TODO: [ ] start with the mtl task ware models
 
-##BUG: [ ] inconsistenci OSACT train and dev dataset -> 7395 jump 7795
-                                                    -> 9698 jump 9703
-##BUG: [ ] preprocessinf OSACT dataset by mtl-baseline (experiment_damiano)
-##BUG: [ ] OSACT overload GPU memory
-##BUG: [ ] remove debug.py
+
+
