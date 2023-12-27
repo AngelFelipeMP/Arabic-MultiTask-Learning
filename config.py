@@ -7,9 +7,12 @@ ORIGINAL_DATA_PATH = REPO_PATH + '/arabic-data-mtl'
 GRAPHICS_PATH = REPO_PATH + '/graphics'
 
 BASELINE_FOLDER_PATH = REPO_PATH + '/mtl-baseline'
+
 BASELINE_LOGS_PATH = BASELINE_FOLDER_PATH + '/logs'
 BASELINE_DATA_PATH = BASELINE_FOLDER_PATH + '/data'
 
+BASELINE_MACHAMP_LOGS_PATH = BASELINE_FOLDER_PATH + '/MultiTask-Learning-for-Toxic-Language-Classification/machamp/logs'
+BASELINE_MACHAMP_CONFIG_PATH = BASELINE_FOLDER_PATH + '/MultiTask-Learning-for-Toxic-Language-Classification/config'
 
 ArMI_2021 = {'directory':'ArMI-2021',
                 'labels':'ArMI2021_gold.tsv',
