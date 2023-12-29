@@ -19,9 +19,11 @@
 ##TODO: [X] set epochs to 15
 ##TODO: [X] run experiment
 
-##TODO: [ ] improve Analyses.py script (it generate confidence intervals)
+##TODO: [X] improve Analyses.py script (it generate confidence intervals)
 
-##TODO: [ ] change script name experiment_damiano.py to experiment.py or sth else
+##TODO: [ ] change script name experiment_damiano.py to train-test.py or sth else
+##TODO: [ ] change script name experiment_two.py to cross-validation.py or sth else
+
 ##TODO: [ ] check the overall code before start with the mtl task ware models
 
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
