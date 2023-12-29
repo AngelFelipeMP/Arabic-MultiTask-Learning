@@ -24,19 +24,16 @@ if not os.path.exists('logs' + '/' + args.experiment_results):
 
 class Analyses:
     '''Class for caculate the confidence interval'''
-    def __init__(self, results, experiment_name):
+    def __init__(self, experiment_name):
         self.data_path = BASELINE_DATA_PATH
         self.log_path = BASELINE_MACHAMP_LOGS_PATH + '/' + experiment_name
         self.config_path = BASELINE_MACHAMP_CONFIG_PATH + '/' + experiment_name
         
     def number_of_directories(self, path):
-        list_of_contents = os.listdir(self.log_path + '/' + path)
-        all_directories = [item for item in list_of_contents if os.path.isdir(self.log_path + '/' + path + '/' + item)]
-        return len(all_directories)
+        return len([entry.name for entry in os.scandir(self.log_path + '/' + path) if entry.is_dir()])
     
     def check_logs(self):
-        logs = os.listdir(self.log_path)
-        self.log_directories = [item for item in logs if os.path.isdir(self.log_path + '/' + item)]
+        self.log_directories = [entry.name for entry in os.scandir(self.log_path) if entry.is_dir()]
         self.number_sub_log_directories = [self.number_of_directories(dir) for dir in self.log_directories]
         
         # Different number of logs sub-directories
@@ -49,91 +46,75 @@ class Analyses:
         with open(self.config_path + '/' + 'EA0_information_config' + '.json', 'r') as file:
             conf_dict = json.load(file)
             
-        if self.number_sub_log_directories[0] > 1  and set(self.number_sub_log_directories).pop() != (conf_dict['folds_number']):
+        if self.number_sub_log_directories[0] > 1  and self.number_sub_log_directories[0] != (conf_dict['folds_number']):
             print('Number of sub-directories differ from config file')
             print('Check the logs directory and the information config file')
             exit(1)
     
     def create_results_dict(self):
         self.results = {item.upper():{} for item in set([dir.split('_')[0] for dir in self.log_directories])}
-        for model_type, heads in zip([dir.split('_')[0] for dir in self.log_directories], [dir.split('_')[1] for dir in self.log_directories]):
+        for dir_name in self.log_directories:
+            model_type, heads = dir_name.split('_')[0].upper(), dir_name.split('_')[1]
                 
             if len(heads.split('-')) > 1:
-                self.results[model_type.upper()][heads] = {h:0 for h in heads.split('-')}
+                self.results[model_type][heads] = {h:0 for h in heads.split('-')}
             else:
-                self.results[model_type.upper()][heads] = 0
+                self.results[model_type][heads] = 0
                     
-        # add manualy winnners
+    def add_winners_results(self):
         self.results['WINNERS'] = {'ArMI2021':0.919, 'OSACT2022':0.852}
     
+    def find_results(self, source_file, experiment_type):
+        for log_dir in self.log_directories:
+            model_type, heads = log_dir.split('_')[0].upper(), log_dir.split('_')[1]
+            log_subdir = [entry.name for entry in os.scandir(self.log_path + '/' + log_dir) if entry.is_dir()][0]
+            
+            #load config -> dataset
+            with open(self.log_path + '/' + log_dir + '/' + log_subdir + '/config.json', 'r') as f:
+                dict_config = json.load(f)
+            dataset_task = [(k, list(v['tasks'].keys())[0]) for k,v in dict_config['dataset_reader']['datasets'].items()]
+            
+            #load metrics -> results
+            extra_path = '/' + log_subdir if experiment_type == 'train-test' else ''
+            with open(self.log_path + '/' + log_dir + extra_path + source_file, 'r') as f:
+                dict_metrics = json.load(f)
+            dataset_task_result =  [l + (v,) for k,v in dict_metrics.items() for l in dataset_task if 'best' in k and l[1] in k]
+    
+            # add results to dict
+            for tup in dataset_task_result:
+                head, value = tup[0], tup[2]
+
+                if len(dataset_task_result) > 1:
+                    self.results[model_type][heads][head] = value
+                else:
+                    self.results[model_type][head] = value
+            
+            #Save results
+            with open(self.log_path + '/' + 'summary_' + experiment_type +'.json', 'w') as f:
+                json.dump(self.results, f, indent=4)
+
     def get_results(self):
         # 1 sub directoery -> train test pipelines
         if max(set(self.number_sub_log_directories)) == 1:
-            for log_dir in self.log_directories:
-                log_subdir = os.listdir(self.log_path + '/' + log_dir)[0]
-                
-                with open(self.log_path + '/' + log_dir + '/' + log_subdir + '/config.json', 'r') as f:
-                    dict_config = json.load(f)
-                dataset_task = [(k, list(v['tasks'].keys())[0]) for k,v in dict_config['dataset_reader']['datasets'].items()]
-                
-                #load metrics -> results
-                with open(self.log_path + '/' + log_dir + '/' + log_subdir + '/metrics.json', 'r') as f:
-                    dict_metrics = json.load(f)
-                dataset_task_result =  [l + (v,) for k,v in dict_metrics.items() for l in dataset_task if 'best' in k and l[1] in k]
-        
-                # add results to dict
-                for tup in dataset_task_result:
-                    if len(dataset_task_result) > 1:
-                        self.results[log_dir.split('_')[0].upper()][log_dir.split('_')[1]][tup[0]] = tup[2]
-                    else:
-                        self.results[log_dir.split('_')[0].upper()][tup[0]] = tup[2]
-                
-                #Save results
-                with open(self.log_path + '/' + 'summary_train-test' + '.json', 'w') as f:
-                    json.dump(self.results, f, indent=4)
-            
+            self.find_results('/metrics.json', 'train-test')
             
         # more than 1 subdirectory -> cross validation
-        ##TODO: I STOPED HERE -> I NEED TO code bellow &b try the if-else
         elif max(set(self.number_sub_log_directories)) > 1:
-            for log_dir in self.log_directories:
-                log_subdir = os.listdir(self.log_path + '/' + log_dir)[0]
-                
-                #load config
-                with open(self.log_path + '/' + log_dir + '/' + log_subdir + '/config.json', 'r') as f:
-                    dict_config = json.load(f)
-                dataset_task = [(k, list(v['tasks'].keys())[0]) for k,v in dict_config['dataset_reader']['datasets'].items()]
-                
-                #load metrics -> results
-                with open(self.log_path + '/' + log_dir + '/average.json', 'r') as f:
-                    dict_metrics = json.load(f)
-                dataset_task_result =  [l + (v,) for k,v in dict_metrics.items() for l in dataset_task if 'best' in k and l[1] in k]
+            self.find_results('/average.json', 'cross-validation')
         
-                # add results to dict
-                for tup in dataset_task_result:
-                    if len(dataset_task_result) > 1:
-                        self.results[log_dir.split('_')[0].upper()][log_dir.split('_')[1]][tup[0]] = tup[2]
-                    else:
-                        self.results[log_dir.split('_')[0].upper()][tup[0]] = tup[2]
-                
-                #Save results
-                with open(self.log_path + '/' + 'summary_cross-validation' + '.json', 'w') as f:
-                    json.dump(self.results, f, indent=4)
-
         else:
             print('Error: There is no results in the log subdirectories')
             exit(1)
             
-            
     def main(self):
         self.check_logs() 
         self.create_results_dict()
+        self.add_winners_results()
         self.get_results()
 
 
 if __name__ == '__main__':
-    ANALYSES = Analyses(results=None, 
-                        experiment_name=args.experiment_results)
+    ANALYSES = Analyses(experiment_name=args.experiment_results)
     ANALYSES.main()
     
     ic('WORKING')
