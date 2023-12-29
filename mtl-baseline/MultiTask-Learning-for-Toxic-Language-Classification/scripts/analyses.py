@@ -93,19 +93,65 @@ class Analyses:
             with open(self.log_path + '/' + 'summary_' + experiment_type +'.json', 'w') as f:
                 json.dump(self.results, f, indent=4)
 
+    def ttest(self, v,n):
+        z = 1.96
+        SE = math.sqrt((v*(1-v))/n)
+        inter = round(1.96*SE,4)
+        inf = round(v - 1.96*SE,4)
+        sup = round(v + 1.96*SE,4)
+        return inter, inf, sup
+        
+    def sample_size(self, partition, data):
+        data_file = [file for file  in os.listdir(self.data_path) if partition in file and data in file][0]
+        return pd.read_csv(self.data_path + '/' + data_file, sep='\t').shape[0]
+    
+    def print_results(self, model_type, heads, head, val, inter, inf, sup):
+        print('Model: {}'.format(model_type))
+        if heads:
+            print('Heads: {}'.format(heads))
+        print('Heads: {}'.format(head))
+        print('Value: {}'.format(val))
+        print('Interval: +/- {}'.format(inter))
+        print('Value {} is contained in ({},{})'.format(val,inf,sup))
+        print('\n')
+        
+    def caculate_conf_intervals(self, partition, experiment_type):
+        results_plus_interval = self.results.copy()
+        
+        for model_type, heads_values in self.results.items():
+            for heads, value in heads_values.items():
+                if isinstance(value, dict):
+                    for head, v in value.items():
+                        n = self.sample_size(partition, head)
+                        i,inf,sup = self.ttest(v,n)
+                        results_plus_interval[model_type][heads][head] = {'value': round(v,4), 'inter': i, 'inf': inf, 'sup': sup}
+                        self.print_results(model_type, heads, head, v, i, inf, sup)
+                        
+                else:
+                    head, v = heads, value
+                    n = self.sample_size(partition, head)
+                    i,inf,sup = self.ttest(v,n)
+                    results_plus_interval[model_type][head] = {'value': round(v,4), 'inter': i, 'inf': inf, 'sup': sup}
+                    self.print_results(model_type, None, head, v, i, inf, sup)
+        
+        with open(self.log_path + '/' + 'summary_' + experiment_type + '_plus_interval.json', 'w') as f:
+            json.dump(results_plus_interval, f, indent=4)
+        
     def get_results(self):
         # 1 sub directoery -> train test pipelines
         if max(set(self.number_sub_log_directories)) == 1:
             self.find_results('/metrics.json', 'train-test')
+            self.caculate_conf_intervals('test', 'train-test')
             
         # more than 1 subdirectory -> cross validation
         elif max(set(self.number_sub_log_directories)) > 1:
             self.find_results('/average.json', 'cross-validation')
+            self.caculate_conf_intervals('merge', 'cross-validation')
         
         else:
             print('Error: There is no results in the log subdirectories')
             exit(1)
-            
+    
     def main(self):
         self.check_logs() 
         self.create_results_dict()
@@ -116,5 +162,3 @@ class Analyses:
 if __name__ == '__main__':
     ANALYSES = Analyses(experiment_name=args.experiment_results)
     ANALYSES.main()
-    
-    ic('WORKING')
