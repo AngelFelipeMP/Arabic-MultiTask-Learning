@@ -24,8 +24,9 @@ if not os.path.exists('logs' + '/' + args.experiment_results):
 
 class Analyses:
     '''Class for caculate the confidence interval'''
-    def __init__(self, experiment_name):
+    def __init__(self, experiment_name, winners={}):
         self.experiment_name = experiment_name
+        self.winners = winners
         self.data_path = BASELINE_DATA_PATH
         self.log_path = BASELINE_MACHAMP_LOGS_PATH + '/' + experiment_name
         self.config_path = BASELINE_MACHAMP_CONFIG_PATH + '/' + experiment_name
@@ -63,7 +64,7 @@ class Analyses:
                 self.results[model_type][heads] = 0
                     
     def add_winners_results(self):
-        self.results['WINNERS'] = {'ArMI2021':0.919, 'OSACT2022':0.852}
+        self.results['WINNERS'] = self.winners
     
     def find_results(self, source_file, experiment_type):
         for log_dir in self.log_directories:
@@ -141,6 +142,7 @@ class Analyses:
     def get_results(self):
         # 1 sub directoery -> train test pipelines
         if max(set(self.number_sub_log_directories)) == 1:
+            self.add_winners_results()
             self.find_results('/metrics.json', 'train-test')
             self.caculate_conf_intervals('test', 'train-test')
             
@@ -156,10 +158,10 @@ class Analyses:
     def main(self):
         self.check_logs() 
         self.create_results_dict()
-        self.add_winners_results()
         self.get_results()
 
 
 if __name__ == '__main__':
-    ANALYSES = Analyses(experiment_name=args.experiment_results)
+    ANALYSES = Analyses(experiment_name=args.experiment_results,
+                        winners={'ArMI2021':0.919, 'OSACT2022':0.852})
     ANALYSES.main()
