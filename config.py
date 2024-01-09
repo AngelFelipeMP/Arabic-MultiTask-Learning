@@ -5,6 +5,7 @@ TRANSFORMERS = ['aubmindlab/bert-base-arabert']
 REPO_PATH = os.getcwd().split('Arabic-MultiTask-Learning')[0] + 'Arabic-MultiTask-Learning'
 ORIGINAL_DATA_PATH = REPO_PATH + '/arabic-data-mtl'
 GRAPHICS_PATH = REPO_PATH + '/graphics'
+PRE_TRAINED_MODELS_PATH = REPO_PATH + '/pre-trained-models'
 
 BASELINE_FOLDER_PATH = REPO_PATH + '/mtl-baseline'
 
