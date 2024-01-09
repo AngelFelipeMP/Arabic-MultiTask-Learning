@@ -1,14 +1,16 @@
+from pydrive2.auth import GoogleAuth
+from pydrive2.drive import GoogleDrive
 import os
 import shutil
 import pandas as pd
 import json
+import gdown
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 import pandas as pd
 import numpy as np
 import torch
-from icecream import ic
 
 
 class MtlClass:
@@ -26,12 +28,13 @@ class MtlClass:
         self.dataset_config = self.config_files + '_data_'
         self.parameter_config = self.config_files + '_parameter_'
         self.process_pre_train()
-        self.models()
 
-    def models(self):
-        return ['_'.join(file.split('_')[2:4]) for file in os.listdir(self.config_path) if 'mtl'in file or 'stl' in file]
         
     def process_pre_train(self):
+        # dowloand data
+        if self.fetch_data and not self.debug:
+            self.download_data()
+        
         #create a dict with tasks information
         self.get_tasks()
         
@@ -43,9 +46,13 @@ class MtlClass:
         for task in self.tasks.keys():
             self.process_data(task, self.tasks[task]['text'])
         
+        
+        
     def file_list(self, path=str(), word_in=str()):
         # get list with file that contain "word_in" 
         return [file for file in os.listdir(path) if word_in in file]
+        
+        
         
     def read_json(self, path=str()):
         # reading info config file
@@ -54,29 +61,50 @@ class MtlClass:
         return json.loads(file)
             
             
+            
+    def download_data(self):
+        # create a data folder
+        if os.path.exists(self.data_path):
+            shutil.rmtree(self.data_path)
+        os.makedirs(self.data_path)
+        
+        for task,url in self.info_dict['data_urls'].items():
+            #download data folders to current directory
+            gdown.download_folder(url, quiet=True)
+            sorce_folder = os.getcwd() + '/' + task
+            
+            # move datasets to the data folder
+            file_names = os.listdir(sorce_folder)
+            for file_name in file_names:
+                shutil.move(os.path.join(sorce_folder, file_name), self.data_path)
+                
+            # delete data folders from current directory
+            shutil.rmtree(sorce_folder)
+            
+            
+            
     def get_tasks(self):
         # get train datasets & mtl config json
         datasets = [dataset for dataset in self.file_list(self.data_path, 'train') if 'processed' not in dataset] 
         self.tasks = dict()
 
         # open config in python dict
-        file_list = [file for file in os.listdir(self.config_path) if 'stl' in file]
-        for file in file_list:
-            conf_dict = self.read_json(self.config_path + '/' + file)
+        conf_dict = self.read_json(self.dataset_config + 'mtl_config' + '.json')
         
-            # add new information to dict
-            for task, info in conf_dict.items():
-                self.tasks[task] = dict()
-                self.tasks[task]['metric'] = list(info['tasks'].values())[0]['metric']
-                self.tasks[task]['sent_idxs'] = info['sent_idxs'][0]
-                self.tasks[task]['column_idx'] = list(info['tasks'].values())[0]['column_idx']
-                self.tasks[task]['train'] = [dataset for dataset in datasets if task in dataset][0]
-                self.tasks[task]['split'] = '\t' if '.tsv' in self.tasks[task]['train'] else ','
+        # add new information to dict
+        for task, info in conf_dict.items():
+            self.tasks[task] = dict()
+            self.tasks[task]['metric'] = list(info['tasks'].values())[0]['metric']
+            self.tasks[task]['sent_idxs'] = info['sent_idxs'][0]
+            self.tasks[task]['column_idx'] = list(info['tasks'].values())[0]['column_idx']
+            self.tasks[task]['train'] = [dataset for dataset in datasets if task in dataset][0]
+            self.tasks[task]['split'] = '\t' if '.tsv' in self.tasks[task]['train'] else ','
             
-                df = pd.read_csv(self.data_path + '/' + self.tasks[task]['train'], sep=self.tasks[task]['split'])
+            df = pd.read_csv(self.data_path + '/' + self.tasks[task]['train'], sep=self.tasks[task]['split'])
             
-                self.tasks[task]['text'] = list(df.columns)[self.tasks[task]['sent_idxs']]
-                self.tasks[task]['label'] = list(df.columns)[self.tasks[task]['column_idx']]
+            self.tasks[task]['text'] = list(df.columns)[self.tasks[task]['sent_idxs']]
+            self.tasks[task]['label'] = list(df.columns)[self.tasks[task]['column_idx']]
+            
             
             
     def process_data(self, dataset_name=str(), text_column=str()):
@@ -96,7 +124,7 @@ class MtlClass:
                         df = pd.read_csv(self.data_path + '/' + data, sep=divide_columns, nrows=32)
                     else:
                         df = pd.read_csv(self.data_path + '/' + data, sep=divide_columns)
-
+                    
                     #remove non-target language text
                     if self.info_dict['language'] and 'language' in df.columns.to_list():
                         df = df.loc[df['language'] == self.info_dict['language']].reset_index(drop=True)
@@ -105,11 +133,11 @@ class MtlClass:
                     #remove some "\t" and "\n"
                     df[text_column] = df.loc[:,text_column].apply(lambda x: x.replace('\n', ' '))
                     df[text_column] = df.loc[:,text_column].apply(lambda x: x.replace('\t', ' '))
-                    head = None if type(df.columns.to_list()[-1]) != int else True
+                    head = None if type(df.columns.to_list()[0]) != int else True
                     
                     # save as .tsv
                     data_path_name = self.data_path + '/' + data[:-4] + '_processed' + '.tsv'
-                    df.to_csv(data_path_name, index=False, header=head, sep='\t')
+                    df.to_csv(data_path_name, index=False, header=head, sep="\t")
                     
                     # save data train/test to concat
                     if 'label' in data or 'train' in data:
@@ -118,13 +146,8 @@ class MtlClass:
         # concat train and test
         if merge_list:
             df = pd.concat(merge_list, ignore_index=True)
-            
-            # remove duplicate instances
-            df.drop_duplicates(text_column, inplace=True)
-            
-            # save as .tsv
             df_merged_name = data.split('_')[0] + '_merge' + '_processed' + '.tsv'
-            df.to_csv(self.data_path + '/' + df_merged_name, header=head, index=False, sep='\t')
+            df.to_csv(self.data_path + '/' + df_merged_name, header=head, index=False, sep="\t")
 
         # if dataset is multilingual get the column index
         language = [df.columns.to_list().index('language')] if 'language' in df.columns.to_list() else []
@@ -149,6 +172,7 @@ class MtlClass:
         kfold = multi_label_kfold if len(self.tasks[task]['stratify_col']) > 1 else simple_kfold
         self.tasks[task]['df'] = df
         self.tasks[task]['kfold'] = kfold.split(np.zeros(len(df)), df.iloc[:, self.tasks[task]['stratify_col']])
+        
         
         
     def train(self, model=str()):
@@ -252,3 +276,30 @@ class MtlClass:
                 results_dict[task + '_crossvalidation_' + self.tasks[task]['metric']] = score                
                 
         return results_dict
+    
+    def upload_data(self):
+        
+        GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = self.repo_path + '/config' + '/' + 'client_secrets.json'
+        
+        gauth = GoogleAuth()
+        gauth.LoadCredentialsFile(self.repo_path + '/config' + '/' + 'mycreds.txt')
+        
+        if gauth.credentials is None:
+            # Authenticate if they're not there
+            gauth.LocalWebserverAuth()
+        
+        elif gauth.access_token_expired:
+            # Refresh them if expired
+            gauth.Refresh()
+        
+        else:
+            # Initialize the saved creds
+            gauth.Authorize()
+        # Save the current credentials to a file
+        gauth.SaveCredentialsFile(self.repo_path + '/config'+ '/' + 'mycreds.txt')
+        
+        drive = GoogleDrive(gauth)
+        shutil.make_archive(self.logs_path + '/' + 'results', 'zip', self.logs_path)
+        file_drive = drive.CreateFile({'parents': [{'id': '1o8ZHptI_J-0jP8PGdIKB3CbVrUtj3r-G'}]})
+        file_drive.SetContentFile(self.logs_path + '/' +'results.zip')
+        file_drive.Upload()
