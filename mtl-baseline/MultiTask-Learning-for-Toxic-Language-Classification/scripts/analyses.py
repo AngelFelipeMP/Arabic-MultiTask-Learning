@@ -25,6 +25,7 @@ if not os.path.exists('logs' + '/' + args.experiment_results):
 class Analyses:
     '''Class for caculate the confidence interval'''
     def __init__(self, experiment_name):
+        self.experiment_name = experiment_name
         self.data_path = BASELINE_DATA_PATH
         self.log_path = BASELINE_MACHAMP_LOGS_PATH + '/' + experiment_name
         self.config_path = BASELINE_MACHAMP_CONFIG_PATH + '/' + experiment_name
@@ -43,7 +44,7 @@ class Analyses:
             exit(1)
             
         # numero de subdiretorios different from  config
-        with open(self.config_path + '/' + 'EA0_information_config' + '.json', 'r') as file:
+        with open(self.config_path + '/' + self.experiment_name + '_information_config' + '.json', 'r') as file:
             conf_dict = json.load(file)
             
         if self.number_sub_log_directories[0] > 1  and self.number_sub_log_directories[0] != (conf_dict['folds_number']):
