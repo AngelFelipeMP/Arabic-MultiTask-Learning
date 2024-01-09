@@ -20,11 +20,19 @@
 ##TODO: [X] run experiment
 
 ##TODO: [X] improve Analyses.py script (it generate confidence intervals)
+##TODO: [x] change script name experiment_damiano.py to train-test.py or sth else
+##TODO: [x] change script name experiment_two.py to cross-validation.py or sth else
+##TODO: [X] check the overall code before start with the mtl task ware models
 
-##TODO: [ ] change script name experiment_damiano.py to train-test.py or sth else
-##TODO: [ ] change script name experiment_two.py to cross-validation.py or sth else
+##TODO: [X] check the script for cross-validation of the baselines
+##TODO: [-] preper code to call Transformer localy instead from HuggingFace -> not possible machamp does not support
+##TODO: [ ] I may modify code two run in two GPUs
+##TODO: [ ] add repo to a second remote machine
 
-##TODO: [ ] check the overall code before start with the mtl task ware models
+##TODO: [ ] run a small test for cross-validation of the baselines
+##TODO: [ ] run cross-validation for the baselines 
+##TODO: [ ] collect results for cross-validation of the baselines 
+##TODO: [ ] Add results to the overleaf on a Table
 
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 ##TODO: [ ] add GPT inside vs code

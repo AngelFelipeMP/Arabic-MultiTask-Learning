@@ -32,9 +32,9 @@ set parameters in config files
         + learning_rate
         + transfomer_model
 
-run mtl-baseline/scripts/experiment_damiano.py
+run mtl-baseline/scripts/train-test.py
 inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
-ex command : python ../scripts/experiment_damiano.py --information_config EA0/EA0_information_config.json
+ex command : python ../scripts/train-test.py --information_config EA0/EA0_information_config.json
 
 EA0_information_config.json
 EA0_parameter_config.json
@@ -48,5 +48,9 @@ ex command : python ../scripts/analyses.py --experiment_results <EXPERIMENT_FOLD
     -> delet all files in mtl-baseline/logs
     -> run get_data.py
     -> set parameters in config files in mtl-baseline/configs
-    -> run experiment_damiano.py
+    -> run train-test.py
     -> run analyses.py
+
+
+## OBS to run experiments on mtl-baseline
+    -> we must have stl config files in mtl-baseline/configs/E.../ (e.g. mtl-baseline/configs/E1/)
