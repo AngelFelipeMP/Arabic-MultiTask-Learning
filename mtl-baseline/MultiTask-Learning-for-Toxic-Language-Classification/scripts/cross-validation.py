@@ -1,6 +1,6 @@
 # dependencies
 import argparse
-from utils_two import MtlClass
+from utils import MtlClass
 import os
 
 parser = argparse.ArgumentParser()
@@ -43,4 +43,5 @@ for idxs in zip(*[MTL.tasks[task_]['kfold'] for task_ in MTL.tasks.keys()]):
         break
 
 # average resuls
-MTL.average()
+if args.debug == True:
+    MTL.average()

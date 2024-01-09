@@ -1,6 +1,6 @@
 # dependencies
 import argparse
-from utils_two import MtlClass
+from utils import MtlClass
 import os
 from icecream import ic
 
@@ -32,5 +32,3 @@ for model in MTL.models():
     # if args.debug == True:
     #     break
     
-# # average resuls
-# MTL.average()
