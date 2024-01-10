@@ -1,7 +1,7 @@
 {
     "experiment": "EAC0",
     "device": "auto",
-    "folds_number": 3,
+    "folds_number": 5,
     "data_urls":{
         "ArMI2021":"",
         "HSARABIC":"",
