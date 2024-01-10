@@ -1,24 +1,39 @@
-clone code repo
+#### Download code and data
+clone code repo 
+    -> git clone https://github.com/AngelFelipeMP/Arabic-MultiTask-Learning
+    -> OR git clone https://AngelFelipeMP:<GITTOKEN>@github.com/AngelFelipeMP/Arabic-MultiTask-Learning
+cd Arabic-MultiTask-Learning
 clone data repo
-create folder: data, logs inside mtl-baseline/models
-create a conde env from .yml file (root of repo)
-install pip dependencies 
-    -> pip install openpyxl
-    -> pip install iterative-stratification==0.1.7
+    -> git clone https://github.com/AngelFelipeMP/arabic-data-mtl
+    -> OR git clone https://AngelFelipeMP:<GITTOKEN>@github.com/AngelFelipeMP/arabic-data-mtl
+cd mtl-baseline
+create folder: data, logs inside mtl-baseline
+    -> mkdir data
+    -> mkdir logs
+cd ..
+create cpu and gpu conde envs from .yml file (root of repo)
+    -> conda env create -f environment.yml
+    -> conda env create -f environment_gpu.yml
 
-### Data Exploration
-run Arabic-MultiTask-Learning/data_exploration.py
+#### Data Exploration
 inside: Arabic-MultiTask-Learning/
+run 1: python data_exploration.py
+run 2: python token_analyse.py
 
-run Arabic-MultiTask-Learning/token_analysis.py
-inside: Arabic-MultiTask-Learning/
+#### RUN MTL-baseline
+## Outline
+    -> run get_data.py (Preprocess data)
+    -> set parameters in config files in mtl-baseline/configs
+    -> delet all files in mtl-baseline/logs
+    -> run train-test.py/cross-validation.py
+    -> run analyses.py
 
-
-### MTL-baseline
-
-run mtl-baseline/get_data.py
+## Process data
 inside: Arabic-MultiTask-Learning/mtl-baseline/
+run 1: cd mtl-baseline
+run 2: python get_data.py
 
+## Preper conf. files
 set parameters in config files
     -> mtl-baseline/configs/EA0_information_config.json
         + experiment (e.g. EA0)
@@ -32,25 +47,22 @@ set parameters in config files
         + learning_rate
         + transfomer_model
 
-run mtl-baseline/scripts/train-test.py
+## Run experiments
 inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
-ex command : python ../scripts/train-test.py --information_config EA0/EA0_information_config.json
+run 1: cd MultiTask-Learning-for-Toxic-Language-Classification/machamp
+run 2: (e.g.:) python ../scripts/train-test.py --information_config EA0/EA0_information_config.json --debug
+Delete all files in machamp/logs folder
+run 3: (e.g.:) python ../scripts/train-test.py --information_config EA0/EA0_information_config.json
+OR 
+run 2: (e.g.:) python ../scripts/cross-validation.py --information_config EAC0/EAC0_information_config.json --debug
+Delete all files in machamp/logs folder
+run 3: (e.g.:) python ../scripts/cross-validation.py --information_config EAC0/EAC0_information_config.json
 
-EA0_information_config.json
-EA0_parameter_config.json
-
-run mtl-baseline/scripts/Analyses.py
+## Get confidence interval
 inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
-OBS: to get the confidence interval
-ex command : python ../scripts/analyses.py --experiment_results <EXPERIMENT_FOLDER> (e.g: EA0)
-
-## steps to run experiments on mtl-baseline
-    -> delet all files in mtl-baseline/logs
-    -> run get_data.py
-    -> set parameters in config files in mtl-baseline/configs
-    -> run train-test.py
-    -> run analyses.py
+run: (e.g.:) python ../scripts/analyses.py --experiment_results <EXPERIMENT_FOLDER> (e.g: EA0)
 
 
-## OBS to run experiments on mtl-baseline
+#### OBS 
+1) run experiments on mtl-baseline
     -> we must have stl config files in mtl-baseline/configs/E.../ (e.g. mtl-baseline/configs/E1/)

@@ -26,11 +26,13 @@
 
 ##TODO: [X] check the script for cross-validation of the baselines
 ##TODO: [-] preper code to call Transformer localy instead from HuggingFace -> not possible machamp does not support
-##TODO: [ ] I may modify code two run in two GPUs
-##TODO: [ ] add repo to a second remote machine
+##TODO: [-] I may modify code two run in two GPUs
+##TODO: [X] add repo to a second remote machine
+##TODO: [X] run a small test for cross-validation of the baselines
+##TODO: [ ] plan version countrol in all this machines 
+##TODO: [ ] run cross-validation for the baselines
 
-##TODO: [ ] run a small test for cross-validation of the baselines
-##TODO: [ ] run cross-validation for the baselines 
+
 ##TODO: [ ] collect results for cross-validation of the baselines 
 ##TODO: [ ] Add results to the overleaf on a Table
 
