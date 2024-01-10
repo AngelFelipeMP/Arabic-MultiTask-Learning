@@ -34,14 +34,14 @@ for idxs in zip(*[MTL.tasks[task_]['kfold'] for task_ in MTL.tasks.keys()]):
         print(model)
         MTL.train(model)
         
-        #DEBUG add "Break"
-        if args.debug == True:
-            break
+    #     #DEBUG add "Break"
+    #     if args.debug == True:
+    #         break
     
-    #DEBUG add "Break"
-    if args.debug == True:
-        break
+    # #DEBUG add "Break"
+    # if args.debug == True:
+    #     break
 
-# average resuls
-if args.debug == True:
-    MTL.average()
+# # average resuls
+# if args.debug == True:
+MTL.average()
