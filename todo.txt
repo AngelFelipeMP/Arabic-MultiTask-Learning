@@ -29,18 +29,17 @@
 ##TODO: [-] I may modify code two run in two GPUs
 ##TODO: [X] add repo to a second remote machine
 ##TODO: [X] run a small test for cross-validation of the baselines
-##TODO: [ ] plan version countrol in all this machines 
+##TODO: [X] plan version countrol in all this machines 
 ##TODO: [ ] run cross-validation for the baselines
-
 
 ##TODO: [ ] collect results for cross-validation of the baselines 
 ##TODO: [ ] Add results to the overleaf on a Table
 
-##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 ##TODO: [ ] add GPT inside vs code
 ##TODO: [ ] add chrome inside vs code
 
-##TODO: [ ] start with the mtl task ware models
+##TODO: [ ] start with the mtl Task Awareness models
+##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 
 
 

@@ -6,6 +6,9 @@ cd Arabic-MultiTask-Learning
 clone data repo
     -> git clone https://github.com/AngelFelipeMP/arabic-data-mtl
     -> OR git clone https://AngelFelipeMP:<GITTOKEN>@github.com/AngelFelipeMP/arabic-data-mtl
+git configuration
+    -> git config --global user.email "<EMAIL>"
+    -> git config --global user.name "<NAME>"
 cd mtl-baseline
 create folder: data, logs inside mtl-baseline
     -> mkdir data
@@ -25,6 +28,7 @@ run 2: python token_analyse.py
     -> run get_data.py (Preprocess data)
     -> set parameters in config files in mtl-baseline/configs
     -> delet all files in mtl-baseline/logs
+    -> create a tmux session
     -> run train-test.py/cross-validation.py
     -> run analyses.py
 
