@@ -30,7 +30,7 @@
 ##TODO: [X] add repo to a second remote machine
 ##TODO: [X] run a small test for cross-validation of the baselines
 ##TODO: [X] plan version countrol in all this machines 
-##TODO: [ ] run cross-validation for the baselines
+##TODO: [X] run cross-validation for the baselines
 
 ##TODO: [ ] collect results for cross-validation of the baselines 
 ##TODO: [ ] Add results to the overleaf on a Table
