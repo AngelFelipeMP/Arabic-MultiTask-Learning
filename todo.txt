@@ -39,22 +39,24 @@
 ##TODO: [-] add chrome inside vs code
 
 ##TODO: [X] start with the mtl Task Awareness models
-
 ##TODO: [ ] mtl-model: check scripts
             - [X] analysis.py
             - [X] train-test.py 
             - [X] gridsearch.py
             - [X] grid_dataparallelism.py
             - [X] duplicate_samples.py 
-            - [ ] dataset.py
-            - [ ] data.py
-            - [ ] model.py
-            - [ ] model_dataparallelism.py
+            - [X] dataset.py
+            - [X] data.py
+            - [X] model.py
+            - [x] model_dataparallelism.py
 
-##TODO: [ ] mtl-model: How to get best results?
-##TODO: [ ] mtl-model: How to caculate confidence intervals?
-
-##TODO: [ ] mtl-model: test with original data
+##TODO: [X] mtl-model: test with original data
+##TODO: [X] Unify parallel script and not parallel scripts
+            - [X] train-test.py 
+            - [X] gridsearch.py
+            - [X] grid_dataparallelism.py
+            - [X] model.py
+            - [X] model_dataparallelism.py (out.get_device())
 
 ##TODO: [ ] mtl-model: adapt scripts
             - [ ] train-test.py 
@@ -62,6 +64,14 @@
             - [ ] movie gitignore to new gitignore
             - [ ] train-test must save results (in log folder) as 'train-test' not gridsearch
             - [ ] I may remove end file .yml
+            - [ ] remove def download_data from data.py
+            - [ ] remove comments from all scripts
+            - [ ] get rid of necessary folders and files
+
+##TODO: fix train-test.py loadingbar -> it finish in 50%
+##TODO: [ ] mtl-model: How to get best results?
+##TODO: [ ] mtl-model: How to caculate confidence intervals?
+
 
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 
