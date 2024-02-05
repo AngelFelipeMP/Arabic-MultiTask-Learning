@@ -1,7 +1,5 @@
 from json import decoder
 import dataset
-# import engine
-import engine_dataparallelism as engine
 import torch
 import pandas as pd
 import numpy as np
@@ -13,8 +11,6 @@ from tqdm import tqdm
 
 from torch.utils.data.dataset import ConcatDataset
 from samplers import BatchSamplerTrain, BatchSamplerValidation
-# from model import MTLModels
-from model_dataparallelism import MTLModels
 import warnings
 warnings.filterwarnings('ignore') 
 from sklearn.model_selection import StratifiedKFold
@@ -23,6 +19,11 @@ from transformers import AdamW
 from transformers import get_linear_schedule_with_warmup
 from transformers import logging
 logging.set_verbosity_error()
+
+#import engine
+#from model import MTLModels
+import engine_dataparallelism as engine
+from model_dataparallelism import MTLModels
 
 
 class CrossValidation(MetricTools, StatisticalTools):
