@@ -5,6 +5,7 @@ mtl-baseline/data
 mtl-baseline/logs
 mtl-model/data
 mtl-model/logs
+mtl-model/results
 mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp/logs
 
 
