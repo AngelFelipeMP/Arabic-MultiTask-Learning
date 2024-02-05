@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from itertools import cycle
+import config
 
 def loss_fn(outputs, targets):
     return nn.CrossEntropyLoss()(outputs, targets)
@@ -33,7 +34,10 @@ def train_fn(data_loader, model, optimizer, device, scheduler, heads):
         _, predictions = torch.max(outputs, 1)
         finds[head]['predictions'].extend(predictions.cpu().detach().numpy().tolist())
         
-        loss[head].backward()
+        if config.DATA_PARALLEL:
+            loss[head].mean().backward()
+        else:
+            loss[head].backward()
         
         if (i + 1) % len(heads) == 0:
             optimizer.step()

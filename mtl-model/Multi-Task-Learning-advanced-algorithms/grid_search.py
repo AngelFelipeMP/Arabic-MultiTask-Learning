@@ -22,9 +22,6 @@ logging.set_verbosity_error()
 
 import engine
 from model import MTLModels
-# import engine_dataparallelism as engine
-# from model_dataparallelism import MTLModels
-
 
 class CrossValidation(MetricTools, StatisticalTools):
     def __init__(self, model_name, heads, data_dict, max_len, transformer, batch_size, drop_out, lr, df_results, fold, num_efl, num_dfl):
@@ -114,6 +111,8 @@ class CrossValidation(MetricTools, StatisticalTools):
         
         device = config.DEVICE if config.DEVICE else torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         model = MTLModels(self.transformer, self.drop_out, self.heads, self.data_dict, self.model_name, self.num_efl, self.num_dfl) 
+        if config.DATA_PARALLEL:
+            model = torch.nn.DataParallel(model, device_ids=[0, 1])
         model.to(device)
         
         param_optimizer = list(model.named_parameters())

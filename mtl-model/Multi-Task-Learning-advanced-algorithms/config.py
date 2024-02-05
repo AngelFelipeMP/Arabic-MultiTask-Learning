@@ -22,6 +22,7 @@ TARGET_LANGUAGE = 'es'
 DOWLOAD_DATA = False
 PROCESS_DATA = True
 DEVICE = 'cuda:0' #0 #'cuda:1'
+DATA_PARALLEL = None #True
 
 DOMAIN_GRID_SEARCH = 'gridsearch'
 DOMAIN_TRAIN = 'training'
