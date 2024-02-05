@@ -1,9 +1,7 @@
-from json import decoder
 import dataset
 import torch
 import pandas as pd
 import numpy as np
-import math
 import random
 import config
 from utils import *
@@ -22,10 +20,9 @@ logging.set_verbosity_error()
 
 import engine
 from model import MTLModels
-
-class CrossValidation(MetricTools, StatisticalTools):
+class TrainValidaion(MetricTools, StatisticalTools):
     def __init__(self, model_name, heads, data_dict, max_len, transformer, batch_size, drop_out, lr, df_results, fold, num_efl, num_dfl):
-        super(CrossValidation, self).__init__(model_name, heads, transformer, max_len, batch_size, lr, drop_out, num_efl, num_dfl)
+        super(TrainValidaion, self).__init__(model_name, heads, transformer, max_len, batch_size, lr, drop_out, num_efl, num_dfl)
         self.model_name = model_name
         self.data_dict = data_dict
         self.heads = sorted(heads.split('-'))
@@ -229,7 +226,7 @@ if __name__ == "__main__":
                                                 
                                             tqdm.write(f'\nModel: {model_name} Heads: {group_heads} Encode-feature-layers: {num_efl} Decoder-feature-layers: {num_dfl} Dropout: {drop_out} lr: {lr} Max_len: {max_len} Batch_size: {batch_size} Fold: {fold}/{config.SPLITS}')
                                             
-                                            cv = CrossValidation(model_name, 
+                                            cv = TrainValidaion(model_name, 
                                                                 group_heads,
                                                                 data_dict, 
                                                                 max_len, 
