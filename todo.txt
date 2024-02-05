@@ -58,22 +58,20 @@
             - [X] model.py
             - [X] model_dataparallelism.py (out.get_device())
 
+##TODO: [X] mtl-model: How to caculate confidence intervals?
 ##TODO: [ ] mtl-model: adapt scripts
-            - [ ] train-test.py 
-                    [ ] change the name of the class  or if it is the same cv classs remoce it from the script and call it
-            - [ ] movie gitignore to new gitignore
-            - [ ] train-test must save results (in log folder) as 'train-test' not gridsearch
+            - [X] train-test.py 
+                  - [X] change the name of the class  or if it is the same cv classs remoce it from the script and call it
+                  - [-] train-test.py -> it should run on the best parameter from gridsearch
+                  - [X] train-test must save results (in log folder) as 'train-test' not gridsearch
+                  - [X] change the name of the script gred_search to CrossValidation.
+            - [X] movie gitignore to new gitignore
             - [ ] I may remove end file .yml
             - [ ] remove def download_data from data.py
             - [ ] remove comments from all scripts
             - [ ] get rid of necessary folders and files
-
-##TODO: fix train-test.py loadingbar -> it finish in 50%
+            
 ##TODO: [ ] mtl-model: How to get best results?
-##TODO: [ ] mtl-model: How to caculate confidence intervals?
-
-
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
-
-
-
+##TODO: [ ] medium scale test using original data
+##TODO: [ ] adapt the code for the arabic data
