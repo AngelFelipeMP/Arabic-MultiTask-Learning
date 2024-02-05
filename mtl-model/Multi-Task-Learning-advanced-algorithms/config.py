@@ -1,7 +1,7 @@
 import os
 
 #Hiper-parameters
-SPLITS = 2 #2
+SPLITS = 1 #2
 EPOCHS = 1 #15
 MAX_LEN = [64] #[128]
 DROPOUT = [0.3] #[0.3]
@@ -22,13 +22,15 @@ TARGET_LANGUAGE = 'es'
 DOWLOAD_DATA = False
 PROCESS_DATA = True
 DEVICE = 'cuda:0' #0 #'cuda:1'
-DATA_PARALLEL = None #True
+DATA_PARALLEL = True #None 
 
-DOMAIN_GRID_SEARCH = 'gridsearch'
-DOMAIN_TRAIN = 'training'
-DOMAIN_VALIDATION = 'validation'
-DOMAIN_TRAIN_ALL_DATA = 'all_data_training'
-DOMAIN_TEST = 'test'
+# DOMAIN_GRID_SEARCH = 'gridsearch'
+DOMAIN_CROSS_VALIDATION = 'cross-validation'
+DOMAIN_TRAIN_TEST = 'train-test'
+# DOMAIN_TRAIN = 'training'
+# DOMAIN_VALIDATION = 'validation'
+# DOMAIN_TRAIN_ALL_DATA = 'all_data_training'
+# DOMAIN_TEST = 'test'
 
 TRAIN_WORKERS = 1
 VAL_WORKERS = 1 

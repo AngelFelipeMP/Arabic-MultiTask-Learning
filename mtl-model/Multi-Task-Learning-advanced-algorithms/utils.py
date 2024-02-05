@@ -155,14 +155,14 @@ class MetricTools:
                                                                 'me_precision_weighted_val',
                                                                 'loss_val'].mean()
     
-    def save_results(self, df):
-        df.to_csv(config.LOGS_PATH + '/' + config.DOMAIN_GRID_SEARCH + '.csv', index=False)
+    def save_results(self, df, domain):
+        df.to_csv(config.LOGS_PATH + '/' + domain + '.csv', index=False)
         
         
 class PredTools:
-    def __init__(self, data_dict, model_name, heads, drop_out, num_efl, num_dfl, lr ,batch_size, max_len, transformer):
-        self.file_grid_preds = config.LOGS_PATH + '/' + config.DOMAIN_GRID_SEARCH + '_predictions' +'.csv'
-        self.file_fold_preds = config.LOGS_PATH + '/' + config.DOMAIN_GRID_SEARCH + '_predictions' + '_fold' +'.csv'
+    def __init__(self, data_dict, model_name, heads, drop_out, num_efl, num_dfl, lr ,batch_size, max_len, transformer, domain):
+        self.file_grid_preds = config.LOGS_PATH + '/' + domain + '_predictions' +'.csv'
+        self.file_fold_preds = config.LOGS_PATH + '/' + domain + '_predictions' + '_fold' +'.csv'
         self.data_dict = data_dict
         self.heads = heads
         self.list_df = []
@@ -232,13 +232,13 @@ def parameters(model_name):
     return parameters_dict
 
 
-def tdqm_gridsearch():
+def tdqm_gridsearch(splits=config.SPLITS):
     tqdm_list=[]
     
     for model in config.MODELS.keys():
         x = len(parameters(model)['task-identification-vector'])
         y = len(parameters(model)['deep-classifier'])
-        param = len(config.TRANSFORMERS) * len(config.MAX_LEN) * len(config.BATCH_SIZE) * len(config.DROPOUT) * len(config.LR) * config.SPLITS * x * y * len(config.MODELS[model]['decoder']['heads'])
+        param = len(config.TRANSFORMERS) * len(config.MAX_LEN) * len(config.BATCH_SIZE) * len(config.DROPOUT) * len(config.LR) * splits * x * y * len(config.MODELS[model]['decoder']['heads'])
         tqdm_list.append(param)
     
     return sum(tqdm_list)

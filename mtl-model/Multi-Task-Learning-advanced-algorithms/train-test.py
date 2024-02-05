@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import random
 import config
-from utils import *
+from utils import rename_logs, tdqm_gridsearch, parameters
 from grid_search import TrainValidaion
 from tqdm import tqdm
 
@@ -16,7 +16,7 @@ torch.cuda.manual_seed_all(config.SEED)
 rename_logs()
 
 # create progress bar
-grid_search_bar = tqdm(total=tdqm_gridsearch(), desc='TRAIN-TEST', position=0)
+grid_search_bar = tqdm(total=tdqm_gridsearch(splits=1), desc='TRAIN-TEST', position=0)
 
 # metric results dataset
 df_results = None
@@ -60,7 +60,8 @@ for model_name, model_characteristics in config.MODELS.items():
                                                         df_results,
                                                         1,
                                                         num_efl,
-                                                        num_dfl
+                                                        num_dfl,
+                                                        config.DOMAIN_TRAIN_TEST
                                     )
                                     
                                     df_results = cv.run()

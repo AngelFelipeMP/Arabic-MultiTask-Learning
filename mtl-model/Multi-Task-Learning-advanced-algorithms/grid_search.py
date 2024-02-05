@@ -21,7 +21,7 @@ logging.set_verbosity_error()
 import engine
 from model import MTLModels
 class TrainValidaion(MetricTools, StatisticalTools):
-    def __init__(self, model_name, heads, data_dict, max_len, transformer, batch_size, drop_out, lr, df_results, fold, num_efl, num_dfl):
+    def __init__(self, model_name, heads, data_dict, max_len, transformer, batch_size, drop_out, lr, df_results, fold, num_efl, num_dfl, domain):
         super(TrainValidaion, self).__init__(model_name, heads, transformer, max_len, batch_size, lr, drop_out, num_efl, num_dfl)
         self.model_name = model_name
         self.data_dict = data_dict
@@ -35,6 +35,7 @@ class TrainValidaion(MetricTools, StatisticalTools):
         self.fold = fold
         self.num_efl = num_efl
         self.num_dfl = num_dfl
+        self.domain = domain
         
     def calculate_metrics(self, output_train, average='macro'):
         metrics_dict = {head:{} for head in self.heads}
@@ -136,7 +137,17 @@ class TrainValidaion(MetricTools, StatisticalTools):
         )
         
         # create obt for save preds class
-        manage_preds = PredTools(self.data_dict, self.model_name, self.heads, self.drop_out, self.num_efl, self.num_dfl, self.lr, self.batch_size, self.max_len, self.transformer)
+        manage_preds = PredTools(self.data_dict, 
+                                self.model_name, 
+                                self.heads, 
+                                self.drop_out, 
+                                self.num_efl, 
+                                self.num_dfl, 
+                                self.lr, 
+                                self.batch_size, 
+                                self.max_len, 
+                                self.transformer,
+                                self.domain)
         
         for epoch in range(1, config.EPOCHS+1):
             output_train = engine.train_fn(train_data_loader, model, optimizer, device, scheduler, self.heads)
@@ -169,7 +180,7 @@ class TrainValidaion(MetricTools, StatisticalTools):
         if self.fold == config.SPLITS:
             self.df_results = super().avg_results(self.df_results)
             self.df_results = super().add_margin_of_error(self.data_dict, self.heads, self.df_results)
-            super().save_results(self.df_results)
+            super().save_results(self.df_results, self.domain)
             
             # save all folds preds "gridsearch"
             manage_preds.save_preds()
@@ -237,7 +248,8 @@ if __name__ == "__main__":
                                                                 df_results,
                                                                 fold,
                                                                 num_efl,
-                                                                num_dfl
+                                                                num_dfl,
+                                                                config.DOMAIN_CROSS_VALIDATION
                                             )
                                             
                                             df_results = cv.run()
