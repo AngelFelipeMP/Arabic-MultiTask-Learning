@@ -38,7 +38,31 @@
 ##TODO: [X] add GPT inside vs code
 ##TODO: [-] add chrome inside vs code
 
-##TODO: [ ] start with the mtl Task Awareness models
+##TODO: [X] start with the mtl Task Awareness models
+
+##TODO: [ ] mtl-model: check scripts
+            - [X] analysis.py
+            - [X] train-test.py 
+            - [X] gridsearch.py
+            - [X] grid_dataparallelism.py
+            - [X] duplicate_samples.py 
+            - [ ] dataset.py
+            - [ ] data.py
+            - [ ] model.py
+            - [ ] model_dataparallelism.py
+
+##TODO: [ ] mtl-model: How to get best results?
+##TODO: [ ] mtl-model: How to caculate confidence intervals?
+
+##TODO: [ ] mtl-model: test with original data
+
+##TODO: [ ] mtl-model: adapt scripts
+            - [ ] train-test.py 
+                    [ ] change the name of the class  or if it is the same cv classs remoce it from the script and call it
+            - [ ] movie gitignore to new gitignore
+            - [ ] train-test must save results (in log folder) as 'train-test' not gridsearch
+            - [ ] I may remove end file .yml
+
 ##TODO: [ ] change env name if it work for the two MLT models (base and mine)
 
 
