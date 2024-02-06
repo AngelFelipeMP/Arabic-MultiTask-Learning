@@ -9,38 +9,12 @@ class DataProcessClass:
     def __init__(self):
         self.run()
     
-    def run(self):
-        if DOWLOAD_DATA:
-            print("\n--------Downloading data-----------")
-            self.download_data()
+    def run(self):            
+        self.check_files()
+        self.process_data()
+        self.merge_data()
+        self.sanitization()
             
-        if PROCESS_DATA:
-            print("\n--------Processing data-----------")
-            self.check_files()
-            self.process_data()
-            self.merge_data()
-            self.sanitization()
-        
-    
-    def download_data(self):
-        # create a data folder
-        if os.path.exists(DATA_PATH):
-            shutil.rmtree(DATA_PATH)
-        os.makedirs(DATA_PATH)
-        
-        for folder_name, info in INFO_DATA.items():
-            #download data folders to current directory
-            gdown.download_folder(info['url'], quiet=True)
-            sorce_folder = os.getcwd() + '/' + folder_name
-            
-            # move datasets to the data folder
-            file_names = os.listdir(sorce_folder)
-            for file_name in file_names:
-                shutil.move(os.path.join(sorce_folder, file_name), DATA_PATH)
-                
-            # delete data folders from current directory
-            shutil.rmtree(sorce_folder)
-                
     def check_files(self):
         missing_file = []
         # check if the dataset in config file exist
