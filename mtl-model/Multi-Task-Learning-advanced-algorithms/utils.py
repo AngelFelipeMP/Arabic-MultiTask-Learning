@@ -60,7 +60,6 @@ class MetricTools:
                                             'accuracy_val':val_metrics[head]['acc'],
                                             'me_accuracy_val':0,
                                             'f1_val':val_metrics[head]['f1'],
-                                            # 'me_f1-score_val':0,
                                             'me_f1_val':0,
                                             'recall_val':val_metrics[head]['recall'],
                                             'me_recall_val':0,
