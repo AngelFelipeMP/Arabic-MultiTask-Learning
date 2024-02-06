@@ -4,7 +4,7 @@ import numpy as np
 import random
 import config
 from utils import rename_logs, tdqm_gridsearch, parameters
-from grid_search import TrainValidaion
+from cross_validation import TrainValidaion
 from tqdm import tqdm
 
 random.seed(config.SEED)

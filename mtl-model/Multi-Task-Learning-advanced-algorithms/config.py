@@ -1,7 +1,7 @@
 import os
 
 #Hiper-parameters
-SPLITS = 1 #2
+SPLITS = 2 #2
 EPOCHS = 1 #15
 MAX_LEN = [64] #[128]
 DROPOUT = [0.3] #[0.3]
@@ -83,30 +83,30 @@ MODELS = {
             }
         }
 
-MODELS = {
-        'MTL0': {
-            'decoder': {
-                'model':'classifier',
-                'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
-            'encoder': {
-                'model':'transformer', 
-                'input':['text']}
-        },
-        'MTL1': {
-            'decoder': {
-                'model':'classifier',
-                'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
-            'encoder': {
-                'model':'transformer',
-                'input':['text', 'task-identification-text']}
-            },
-        'MTL2': {
-            'decoder': {
-                'model':'classifier',
-                'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
-            'encoder': {
-                'model':'task-identification-encoder', 
-                'input':['text', 'task-identification-vector']}
-            }
-        }
+# MODELS = {
+#         'MTL0': {
+#             'decoder': {
+#                 'model':'classifier',
+#                 'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
+#             'encoder': {
+#                 'model':'transformer', 
+#                 'input':['text']}
+#         },
+#         'MTL1': {
+#             'decoder': {
+#                 'model':'classifier',
+#                 'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
+#             'encoder': {
+#                 'model':'transformer',
+#                 'input':['text', 'task-identification-text']}
+#             },
+#         'MTL2': {
+#             'decoder': {
+#                 'model':'classifier',
+#                 'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
+#             'encoder': {
+#                 'model':'task-identification-encoder', 
+#                 'input':['text', 'task-identification-vector']}
+#             }
+#         }
         
