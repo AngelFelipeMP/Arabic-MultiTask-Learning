@@ -37,18 +37,18 @@ class TrainValidaion(MetricTools, StatisticalTools):
         self.num_dfl = num_dfl
         self.domain = domain
         
-    def calculate_metrics(self, output_train, average='macro'):
+    def calculate_metrics(self, output_train, average='binary'):
         metrics_dict = {head:{} for head in self.heads}
         for head in self.heads:
-            # macro average
-            metrics_dict[head]['f1'] = metrics.f1_score(output_train[head]['targets'], output_train[head]['predictions'], average=average)
             metrics_dict[head]['acc'] = metrics.accuracy_score(output_train[head]['targets'], output_train[head]['predictions'])
+            
+            metrics_dict[head]['f1'] = metrics.f1_score(output_train[head]['targets'], output_train[head]['predictions'], average=average)
             metrics_dict[head]['recall'] = metrics.recall_score(output_train[head]['targets'], output_train[head]['predictions'], average=average) 
             metrics_dict[head]['precision'] = metrics.precision_score(output_train[head]['targets'], output_train[head]['predictions'], average=average)
             
-            metrics_dict[head]['f1_weighted'] = metrics.f1_score(output_train[head]['targets'], output_train[head]['predictions'], average='weighted')
-            metrics_dict[head]['recall_weighted'] = metrics.recall_score(output_train[head]['targets'], output_train[head]['predictions'], average='weighted') 
-            metrics_dict[head]['precision_weighted'] = metrics.precision_score(output_train[head]['targets'], output_train[head]['predictions'], average='weighted')
+            metrics_dict[head]['f1_macro'] = metrics.f1_score(output_train[head]['targets'], output_train[head]['predictions'], average='macro')
+            metrics_dict[head]['recall_macro'] = metrics.recall_score(output_train[head]['targets'], output_train[head]['predictions'], average='macro') 
+            metrics_dict[head]['precision_macro'] = metrics.precision_score(output_train[head]['targets'], output_train[head]['predictions'], average='macro')
         
         return metrics_dict
     
@@ -177,7 +177,7 @@ class TrainValidaion(MetricTools, StatisticalTools):
         manage_preds.concat_fold_preds()
             
         # avg and save logs
-        if self.fold == config.SPLITS:
+        if self.fold == config.SPLITS or self.domain == config.DOMAIN_TRAIN_TEST :
             self.df_results = super().avg_results(self.df_results)
             self.df_results = super().add_margin_of_error(self.data_dict, self.heads, self.df_results)
             super().save_results(self.df_results, self.domain)
