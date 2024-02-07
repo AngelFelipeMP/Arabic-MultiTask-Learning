@@ -4,6 +4,7 @@ import pandas as pd
 import math
 import config
 from datetime import datetime
+from icecream import ic
 
 class StatisticalTools:
     def __init__(self):
@@ -16,11 +17,9 @@ class StatisticalTools:
     
     def add_margin_of_error(self, data_dict, heads, df_results):
         last_rows = -(len(heads)*config.EPOCHS)
-        
         for col in df_results.columns:
             if 'me_' in col:
                 df_results.loc[df_results.index[last_rows]:, col] = df_results.loc[df_results.index[last_rows]:, ['data', col[3:]]].apply(lambda x: self.ttest(x[col[3:]], data_dict[x['data']]['rows']),axis=1)
-        
         return df_results
 
 class MetricTools:
@@ -58,19 +57,19 @@ class MetricTools:
                                             'precision_macro_train':train_metrics[head]['precision_macro'],
                                             'loss_train':output_train[head]['loss'],
                                             'accuracy_val':val_metrics[head]['acc'],
-                                            'me_accuracy_val':0,
+                                            'me_accuracy_val':0.000001,
                                             'f1_val':val_metrics[head]['f1'],
-                                            'me_f1_val':0,
+                                            'me_f1_val':0.000001,
                                             'recall_val':val_metrics[head]['recall'],
-                                            'me_recall_val':0,
+                                            'me_recall_val':0.000001,
                                             'precision_val':val_metrics[head]['precision'],
-                                            'me_precision_val':0,
+                                            'me_precision_val':0.000001,
                                             'f1_macro_val':val_metrics[head]['f1_macro'],
-                                            'me_f1_macro_val':0,
+                                            'me_f1_macro_val':0.000001,
                                             'recall_macro_val':val_metrics[head]['recall_macro'],
-                                            'me_recall_macro_val':0,
+                                            'me_recall_macro_val':0.000001,
                                             'precision_macro_val':val_metrics[head]['precision_macro'],
-                                            'me_precision_macro_val':0,
+                                            'me_precision_macro_val':0.000001,
                                             'loss_val':output_val[head]['loss'],
                                         }, index=[0]
                             )

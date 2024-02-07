@@ -63,7 +63,7 @@ INFO_DATA = {'DETOXIS': {
                     'text_col':'text',
                     'label_col':'HS',
                     'positive_class':1,
-                    'metric':'F1-score',
+                    'metric':'F1-macro',
                     'language':'es',
                     'datasets': {
                         'train': 'HatEval2019_es_train.csv',
@@ -76,7 +76,7 @@ MODELS = {
         'MTL0': {
             'decoder': {
                 'model':'classifier',
-                'heads':['EXIST-DETOXIS', 'EXIST-HatEval','DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
+                'heads':['DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
             'encoder': {
                 'model':'transformer', 
                 'input':['text']}
