@@ -73,10 +73,11 @@
 ##TODO: [X] change env name if it work for the two MLT models (base and mine)
 
 ##TODO: [ ] mtl-model: Get the best results and caculate conf intervals?
-            - write script
-            - create fake data
-            - test
+            - [X] write script
+            - [ ] create fake data
+            - [ ] test
 ##TODO: [ ] unify as much as possible conf files (root and mtl-models)
+##TODO: [ ] I should evaluate if I need to modify INFO_DATA first set of keys adding the dataset year
 ##TODO: [ ] medium scale test using original data
 ##TODO: [ ] adapt the code for the arabic data
 ##TODO: [ ] remove not necessary coda envs (mtl-arabic-baseline-gpu, mtl-arabic-baseline)
