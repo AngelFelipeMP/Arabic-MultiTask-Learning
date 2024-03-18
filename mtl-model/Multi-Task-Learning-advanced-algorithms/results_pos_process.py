@@ -108,11 +108,14 @@ class ResultsExtraction:
         df = self.flatten_nested_dict_to_dataframe(dict_table)
         df.to_csv(self.LOGS_PATH + '/' + 'summary_' + file_name.split('.')[0] + '.csv', index=False)
     
-    def main(self):
+    def main(self, winners={}):
         for file_name in self.get_results_files():
             number_of_samples = self.get_number_of_samples(file_name)
             
             best_models_dict = self.get_best_models(file_name)
+            if winners and 'train-test' in file_name:
+                best_models_dict['WINNERS'] = winners
+                
             best_models_dict_plus_conf_interval = self.add_conf_interval(best_models_dict, number_of_samples)
             
             self.save_json_csv(best_models_dict, file_name)
@@ -120,5 +123,6 @@ class ResultsExtraction:
 
 if __name__ == '__main__':
     Extract_processed_results = ResultsExtraction()
-    Extract_processed_results.main()
-    ##TODO []: add  WINNERS to train-test
+    Extract_processed_results.main(winners={'SINAI':{'DETOXIS':0.646}, 
+                                            'AI-UPV':{'EXIST': 0.790}, 
+                                            'Atalaya':{'HatEval':0.730}})
