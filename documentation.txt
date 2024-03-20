@@ -30,7 +30,7 @@ run 2: python token_analyse.py
     -> delet all files in mtl-baseline/logs
     -> create a tmux session
     -> run train-test.py/cross-validation.py
-    -> run analyses.py
+    -> run analyses.py (TOP MODELS)
 
 ## Process data
 inside: Arabic-MultiTask-Learning/mtl-baseline/
@@ -66,7 +66,34 @@ run 3: (e.g.:) python ../scripts/cross-validation.py --information_config EAC0/E
 inside: Arabic-MultiTask-Learning/mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp
 run: (e.g.:) python ../scripts/analyses.py --experiment_results <EXPERIMENT_FOLDER> (e.g: EA0)
 
-
 #### OBS 
 1) run experiments on mtl-baseline
     -> we must have stl config files in mtl-baseline/configs/E.../ (e.g. mtl-baseline/configs/E1/)
+
+#### RUN MTL-model
+inside: cd /home/adepau/repos/Arabic-MultiTask-Learning/mtl-model/Multi-Task-Learning-advanced-algorithms
+
+## Outline
+    -> run get_data.py (Preprocess data) -> ##COMMENT: I NEED IT 
+    -> set parameters in config files in mtl-model/configs
+    -> delet all files in mtl-model/logs
+    -> create a tmux session
+    -> run train-test.py/cross-validation.py
+    -> run results_pos_process.py (TOP MODELS)
+
+## Preper conf. files
+set parameters in config files
+    -> mtl-model/config.py
+        + max_len
+        + batch_size
+        + epochs
+        + learning_rate
+        + transfomer_model
+        + device
+        + language
+
+## Run experiments
+# analysis - > run 1: python analysis.py
+# train-test -> run 2: python train_test.py
+# cross_validation -> run 3: python cross_validation.py
+# table top results -> run 4: python results_pos_process.py

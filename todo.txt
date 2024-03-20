@@ -72,14 +72,16 @@
 ##TODO: [X] mtl-model: get rid of necessary folders and files
 ##TODO: [X] change env name if it work for the two MLT models (base and mine)
 
-##TODO: [ ] mtl-model: Get the best results and caculate conf intervals?
+##TODO: [X] mtl-model: Get the best results and caculate conf intervals?
             - [X] write script
             - [X] create fake data
             - [X] test
-##TODO: [ ] unify as much as possible conf files (root and mtl-models)
-##TODO: [ ] I should evaluate if I need to modify INFO_DATA first set of keys adding the dataset year
-##TODO: [ ] medium scale test using original data
+##TODO: [X] unify as much as possible conf files (root and mtl-models)
+##TODO: [X] I should evaluate if I need to modify INFO_DATA first set of keys adding the dataset year
+##TODO: [X] medium scale test using original data
 
 ##TODO: [ ] adapt the code for the arabic data
 ##TODO: [ ] remove not necessary coda envs (mtl-arabic-baseline-gpu, mtl-arabic-baseline)
 ##TODO: [ ] mtl-model: call models localy
+##TODO: [ ] remove comments
+##TODO: [ ] delet "table_generator"
