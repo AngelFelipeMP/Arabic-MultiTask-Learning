@@ -13,7 +13,7 @@ torch.manual_seed(config.SEED)
 torch.cuda.manual_seed_all(config.SEED)
 
 #rename old log files adding date YMD-HMS
-rename_logs()
+rename_logs(term='train-test')
 
 # create progress bar
 grid_search_bar = tqdm(total=tdqm_gridsearch(splits=1), desc='TRAIN-TEST', position=0)

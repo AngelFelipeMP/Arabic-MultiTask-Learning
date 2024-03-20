@@ -195,7 +195,7 @@ if __name__ == "__main__":
     torch.cuda.manual_seed_all(config.SEED)
     
     #rename old log files adding date YMD-HMS
-    rename_logs()
+    rename_logs(term='cross-validation')
 
     # create progress bar
     grid_search_bar = tqdm(total=tdqm_gridsearch(), desc='GRID SEARCH', position=0)

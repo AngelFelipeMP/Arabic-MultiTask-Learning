@@ -211,11 +211,15 @@ class PredTools:
         if os.path.isfile(self.file_fold_preds):
             os.remove(self.file_fold_preds)
 
-def rename_logs():
+def rename_logs(term=''):
     time_str = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-    for file in os.listdir(config.LOGS_PATH):
+    files = [f for f in os.listdir(config.LOGS_PATH) if os.path.isfile(os.path.join(config.LOGS_PATH, f))]
+    if term:
+        files = [f for f in files if term in f]
+    
+    for file in files:
         if not bool(re.search(r'\d', file)):
-            os.rename(config.LOGS_PATH + '/' + file, config.LOGS_PATH + '/' + file[:-4] + '_' + time_str + file[-4:])
+            os.rename(config.LOGS_PATH + '/' + file, config.LOGS_PATH + '/' + file.split('.')[0] + '_' + time_str + '.' + file.split('.')[-1])
             
 
 def parameters(model_name):
