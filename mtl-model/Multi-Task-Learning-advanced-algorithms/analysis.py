@@ -20,7 +20,8 @@ if __name__ == "__main__":
             tokenizer = AutoTokenizer.from_pretrained(transformer)
             
             # tokenize text
-            df['tokens'] = df[INFO_DATA[re.sub(r'\d+', '',file.split('_')[0])]['text_col']].apply(lambda x: tokenizer.tokenize(x))
+            # df['tokens'] = df[INFO_DATA[re.sub(r'\d+', '',file.split('_')[0])]['text_col']].apply(lambda x: tokenizer.tokenize(x)) ## COMMENT: I mat remove REMOVE YEAR
+            df['tokens'] = df[INFO_DATA[file.split('_')[0]]['text_col']].apply(lambda x: tokenizer.tokenize(x))
             # count tokens
             df['number_tokens'] = df['tokens'].apply(lambda x: len(x))
 

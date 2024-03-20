@@ -25,8 +25,9 @@ class ResultsExtraction:
         for dataset in self.get_datasets():
             for file in os.listdir(self.DATA_PATH):
                 if all(item in file for item in [dataset, partition, 'processed']):
-                    dict_data_size[self.remove_numbers(dataset)] = len(pd.read_csv(os.path.join(self.DATA_PATH, file)))
-            
+                    # dict_data_size[self.remove_numbers(dataset)] = len(pd.read_csv(os.path.join(self.DATA_PATH, file))) ## COMMENT: I mat remove REMOVE YEAR
+                    dict_data_size[dataset] = len(pd.read_csv(os.path.join(self.DATA_PATH, file)))
+                    
         return dict_data_size
     
     def remove_numbers(self, s):
@@ -35,9 +36,11 @@ class ResultsExtraction:
     def datasets_ranking_metrics(self):
         ranking_column = dict()
         for dataset in self.get_datasets():
-            dataset_without_year = self.remove_numbers(dataset)
-            metric = re.sub(r'\b-score\b', '', self.INFO_DATA[dataset_without_year]['metric'], flags=re.IGNORECASE)
-            ranking_column[dataset_without_year] = metric.lower().replace("-", "_") + "_val"
+            # dataset_without_year = self.remove_numbers(dataset) ## COMMENT: I mat remove REMOVE YEAR
+            # metric = re.sub(r'\b-score\b', '', self.INFO_DATA[dataset_without_year]['metric'], flags=re.IGNORECASE)
+            # ranking_column[dataset_without_year] = metric.lower().replace("-", "_") + "_val"
+            metric = re.sub(r'\b-score\b', '', self.INFO_DATA[dataset]['metric'], flags=re.IGNORECASE)
+            ranking_column[dataset] = metric.lower().replace("-", "_") + "_val"
         return ranking_column
     
     def get_best_models(self, file_name):
@@ -123,6 +126,6 @@ class ResultsExtraction:
 
 if __name__ == '__main__':
     Extract_processed_results = ResultsExtraction()
-    Extract_processed_results.main(winners={'SINAI':{'DETOXIS':0.646}, 
-                                            'AI-UPV':{'EXIST': 0.790}, 
-                                            'Atalaya':{'HatEval':0.730}})
+    Extract_processed_results.main(winners={'SINAI':{'DETOXIS2021':0.646}, 
+                                            'AI-UPV':{'EXIST2021': 0.790}, 
+                                            'Atalaya':{'HatEval2019':0.730}})

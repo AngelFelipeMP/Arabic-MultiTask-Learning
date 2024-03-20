@@ -11,7 +11,7 @@ TRANSFORMERS = ['dccuchile/bert-base-spanish-wwm-cased']
 ENCODER_FEATURE_LAYERS = [3] #[1,2,3] #[0]
 DECODER_FEATURE_LAYERS = [0]
 
-N_ROWS=64 #None 
+N_ROWS=128 #None 
 SEED = 17
 CODE_PATH = os.getcwd()
 REPO_PATH = '/'.join(CODE_PATH.split('/')[0:-1])
@@ -31,7 +31,7 @@ TRAIN_WORKERS = 1
 VAL_WORKERS = 1 
 
 
-INFO_DATA = {'DETOXIS': {
+INFO_DATA = {'DETOXIS2021': {
                     'task': 'toxicity detection',
                     'url':'https://drive.google.com/drive/folders/1KnFDh6oykkhW0h3AS1OhGqnjp-akH10J?usp=sharing',
                     'text_col':'comment',
@@ -44,7 +44,7 @@ INFO_DATA = {'DETOXIS': {
                         'test': 'DETOXIS2021_test_with_labels.csv'
                     }
                 },
-            'EXIST': {
+            'EXIST2021': {
                     'task': 'sexism detection',
                     'url':'https://drive.google.com/drive/folders/1UlxE4jeze3tzfwrwrRywsP2nA4C96U13?usp=sharing',
                     'text_col':'text',
@@ -57,7 +57,7 @@ INFO_DATA = {'DETOXIS': {
                         'test': 'EXIST2021_test_with_labeled.tsv'
                     }
                 },
-            'HatEval': {
+            'HatEval2019': {
                     'task': 'hate speech detection',
                     'url':'https://drive.google.com/drive/folders/1hFmufsQLuku4W21DkLClZ4xOdkCuW85l?usp=sharing',
                     'text_col':'text',
@@ -76,10 +76,37 @@ MODELS = {
         'MTL0': {
             'decoder': {
                 'model':'classifier',
-                'heads':['DETOXIS-HatEval', 'EXIST-DETOXIS-HatEval']},
+                'heads':['DETOXIS2021-HatEval2019', 'EXIST2021-DETOXIS2021-HatEval2019']},
             'encoder': {
                 'model':'transformer', 
                 'input':['text']}
+            }
+        }
+
+MODELS = {
+        'MTL0': {
+            'decoder': {
+                'model':'classifier',
+                'heads':['DETOXIS2021-HatEval2019', 'EXIST2021-DETOXIS2021-HatEval2019']},
+            'encoder': {
+                'model':'transformer', 
+                'input':['text']}
+        },
+        'MTL1': {
+            'decoder': {
+                'model':'classifier',
+                'heads':['DETOXIS2021-HatEval2019', 'EXIST2021-DETOXIS2021-HatEval2019']},
+            'encoder': {
+                'model':'transformer',
+                'input':['text', 'task-identification-text']}
+            },
+        'MTL2': {
+            'decoder': {
+                'model':'classifier',
+                'heads':['DETOXIS2021-HatEval2019', 'EXIST2021-DETOXIS2021-HatEval2019']},
+            'encoder': {
+                'model':'task-identification-encoder', 
+                'input':['text', 'task-identification-vector']}
             }
         }
 
