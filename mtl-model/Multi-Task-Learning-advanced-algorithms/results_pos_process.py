@@ -126,6 +126,5 @@ class ResultsExtraction:
 
 if __name__ == '__main__':
     Extract_processed_results = ResultsExtraction()
-    Extract_processed_results.main(winners={'SINAI':{'DETOXIS2021':0.646}, 
-                                            'AI-UPV':{'EXIST2021': 0.790}, 
-                                            'Atalaya':{'HatEval2019':0.730}})
+    Extract_processed_results.main(winners={'UM6P-NLP':{'ArMI2021':0.919}, 
+                                            'GOF':{'OSACT2022': 0.852}})

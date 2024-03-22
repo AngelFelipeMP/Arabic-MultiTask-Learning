@@ -15,6 +15,12 @@ BASELINE_DATA_PATH = BASELINE_FOLDER_PATH + '/data'
 BASELINE_MACHAMP_LOGS_PATH = BASELINE_FOLDER_PATH + '/MultiTask-Learning-for-Toxic-Language-Classification/machamp/logs'
 BASELINE_MACHAMP_CONFIG_PATH = BASELINE_FOLDER_PATH + '/MultiTask-Learning-for-Toxic-Language-Classification/config'
 
+
+MODEL_FOLDER_PATH = REPO_PATH + '/mtl-model'
+
+MODEL_LOGS_PATH = MODEL_FOLDER_PATH + '/logs'
+MODEL_DATA_PATH = MODEL_FOLDER_PATH + '/data'
+
 ArMI_2021 = {'directory':'ArMI-2021',
                 'labels':'ArMI2021_gold.tsv',
                 'training':'ArMI2021_training.tsv',
