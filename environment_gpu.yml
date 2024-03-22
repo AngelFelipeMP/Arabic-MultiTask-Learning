@@ -1,4 +1,4 @@
-name: mtl-arabic-baseline-gpu
+name: mtl-arabic-gpu
 channels:
   - pytorch
   - conda-forge
@@ -191,4 +191,4 @@ dependencies:
     - et-xmlfile==1.1.0
     - iterative-stratification==0.1.7
     - openpyxl==3.1.2
-prefix: /home/adepau/anaconda3/envs/mtl-arabic-baseline-gpu
+prefix: /home/adepau/anaconda3/envs/mtl-arabic-gpu
