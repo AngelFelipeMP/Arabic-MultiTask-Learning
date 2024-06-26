@@ -1,14 +1,15 @@
 import os
 
 #Hiper-parameters
-SPLITS = 2 #2
-EPOCHS = 3 #15
+SPLITS = 5 #2
+EPOCHS = 15 #15
 MAX_LEN = [128] #[64]
 DROPOUT = [0.3] #[0.3]
-LR = [1e-4] #[5e-6, 1e-5, 5e-5, 1e-4]
+LR = [5e-6, 1e-5, 5e-5, 1e-4] #[1e-4]
 BATCH_SIZE = [64] #[64] #[12] #[16]
-TRANSFORMERS = ['aubmindlab/bert-base-arabert']
-ENCODER_FEATURE_LAYERS = [3] #[1,2,3] #[0]
+# TRANSFORMERS = ['aubmindlab/bert-base-arabert']
+TRANSFORMERS = ['/home/adepau/repos/Arabic-MultiTask-Learning/pre-trained-models/bert-base-arabert_model']
+ENCODER_FEATURE_LAYERS = [1,2,3] #[3] #[0]
 DECODER_FEATURE_LAYERS = [0]
 
 N_ROWS= None #128
@@ -26,8 +27,8 @@ DATA_PARALLEL = True #None
 DOMAIN_CROSS_VALIDATION = 'cross-validation'
 DOMAIN_TRAIN_TEST = 'train-test'
 
-TRAIN_WORKERS = 1
-VAL_WORKERS = 1 
+TRAIN_WORKERS = 10
+VAL_WORKERS = 10 
 
 
 INFO_DATA = {'ArMI2021': {
@@ -71,16 +72,47 @@ INFO_DATA = {'ArMI2021': {
                 }
         }
 
+
 MODELS = {
         'MTL0': {
             'decoder': {
                 'model':'classifier',
-                'heads':['ArMI2021-HSARABIC']},
+                'heads':['ArMI2021-HSARABIC', 'ArMI2021-OSACT2022', 'HSARABIC-OSACT2022','ArMI2021-HSARABIC-OSACT2022']},
             'encoder': {
                 'model':'transformer', 
                 'input':['text']}
+        },
+        'MTL1': {
+            'decoder': {
+                'model':'classifier',
+                'heads':['ArMI2021-HSARABIC', 'ArMI2021-OSACT2022', 'HSARABIC-OSACT2022','ArMI2021-HSARABIC-OSACT2022']},
+            'encoder': {
+                'model':'transformer',
+                'input':['text', 'task-identification-text']}
+            },
+        'MTL2': {
+            'decoder': {
+                'model':'classifier',
+                'heads':['ArMI2021-HSARABIC', 'ArMI2021-OSACT2022', 'HSARABIC-OSACT2022','ArMI2021-HSARABIC-OSACT2022']},
+            'encoder': {
+                'model':'task-identification-encoder', 
+                'input':['text', 'task-identification-vector']}
             }
         }
+
+
+
+
+# MODELS = {
+#         'MTL0': {
+#             'decoder': {
+#                 'model':'classifier',
+#                 'heads':['ArMI2021-HSARABIC']},
+#             'encoder': {
+#                 'model':'transformer', 
+#                 'input':['text']}
+#             }
+#         }
 
 
 # MODELS = {

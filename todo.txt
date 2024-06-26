@@ -80,8 +80,16 @@
 ##TODO: [X] I should evaluate if I need to modify INFO_DATA first set of keys adding the dataset year
 ##TODO: [X] medium scale test using original data
 
-##TODO: [ ] adapt the code for the arabic data
-##TODO: [ ] remove not necessary coda envs (mtl-arabic-baseline-gpu, mtl-arabic-baseline)
-##TODO: [ ] mtl-model: call models localy
+##TODO: [X] adapt the code for the arabic data
+##TODO: [X] remove not necessary coda envs (mtl-arabic-baseline-gpu, mtl-arabic-baseline)
+##TODO: [X] mtl-model: call models localy
+##TODO: [X] delet 1) "table_generator" -> move it to notes 2) data/original_data 3) logs/tempo
+##TODO: [X] I may change head order in conf
+
+##TODO: [X] prepare machine to run experiment
+##TODO: [X] collect results -> into overleaf
 ##TODO: [ ] remove comments
-##TODO: [ ] delet "table_generator"
+##TODO: [ ] unify some conf path
+            -> REPO_PATH = MODEL_FOLDER_PATH
+            -> DATA_PATH = MODEL_DATA_PATH
+            -> LOGS_PATH = MODEL_LOGS_PATH

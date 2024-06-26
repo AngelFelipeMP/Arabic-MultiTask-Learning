@@ -71,7 +71,7 @@ run: (e.g.:) python ../scripts/analyses.py --experiment_results <EXPERIMENT_FOLD
     -> we must have stl config files in mtl-baseline/configs/E.../ (e.g. mtl-baseline/configs/E1/)
 
 #### RUN MTL-model
-inside: cd /home/adepau/repos/Arabic-MultiTask-Learning/mtl-model/Multi-Task-Learning-advanced-algorithms
+inside: cd /home/adepau/repos/Arabic-MultiTask-Learning/mtl-model
 
 ## Outline
     -> run get_data.py (Preprocess data) -> ##COMMENT: I NEED IT 
@@ -93,7 +93,10 @@ set parameters in config files
         + language
 
 ## Run experiments
-# analysis - > run 1: python analysis.py
-# train-test -> run 2: python train_test.py
-# cross_validation -> run 3: python cross_validation.py
-# table top results -> run 4: python results_pos_process.py
+# get data -> run 1: python get_data.py
+# process data -> run 2: cd Multi-Task-Learning-advanced-algorithms
+               -> run 3: python data.py
+# analysis - > run 4: python analysis.py
+# train-test -> run 5: python train_test.py
+# cross_validation -> run 6: python cross_validation.py
+# table top results -> run 7: python results_pos_process.py

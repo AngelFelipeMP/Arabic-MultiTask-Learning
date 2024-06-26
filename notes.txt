@@ -1,7 +1,7 @@
 ### Official tasks
-    #   AraMi 2021 and/or ArMIS 2023 : Misogyny detection
-    #   OSACT-2022: Hate speech detection
-    #   HSArabicDataset: Offensive/vulgar language detection
+    #   ArMI2021 and/or ArMIS 2023 : Misogyny detection (eval. metric: accuracy)
+    #   OSACT2022: Hate speech detection (eval. metric: F1-macro)
+    #   HSArabic: Offensive/vulgar language detection (eval. metric: F1-score)
 
 
 ### Data Exploration

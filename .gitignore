@@ -8,6 +8,8 @@ mtl-model/logs
 mtl-model/results
 mtl-baseline/MultiTask-Learning-for-Toxic-Language-Classification/machamp/logs
 
+##COMMENT: remove it
+mtl-model/data_original 
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
